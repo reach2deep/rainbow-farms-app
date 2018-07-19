@@ -1,0 +1,44 @@
+<mat-card *ngIf="(!canAddEditItem)">
+        <mat-card-header>
+          Payee
+          <button mat-button (click)="editList()">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </mat-card-header>
+          <mat-card-content>
+<mat-nav-list >
+    <mat-list-item (click)="setSelectedPayee(payee)" *ngFor="let payee of payees">
+        <mat-icon matListIcon>folder</mat-icon>
+      <h3 class="name" matLine>{{payee}}</h3>      
+    </mat-list-item>
+</mat-nav-list>
+</mat-card-content>
+<mat-card-actions *ngIf="isEditEnabled">
+    <mat-list-item (click)="addNewItem('')">
+            <mat-icon matListIcon>add</mat-icon>
+            <h3 class="name" matLine>Add new </h3>
+          </mat-list-item>    
+</mat-card-actions>
+
+</mat-card>
+
+<mat-card *ngIf="canAddEditItem">
+        <mat-card-header>
+                <button mat-button (click)="cancelAddEditItem()">
+                        <mat-icon>cancel</mat-icon>
+                      </button>
+          Edit Payee
+          <button mat-button (click)="saveItem()">
+            <mat-icon>save</mat-icon>
+          </button>
+        </mat-card-header>
+        <mat-card-content>
+                <form>
+                        <mat-form-field>
+                          <input name="editCat" type="text" matInput placeholder="Add new payee" [(ngModel)]="addEditPayeeItem">
+                          <!-- <mat-icon (click)="saveNewItem()" matSuffix>check</mat-icon> -->
+                        </mat-form-field>
+                       
+                      </form>
+        </mat-card-content>        
+      </mat-card>

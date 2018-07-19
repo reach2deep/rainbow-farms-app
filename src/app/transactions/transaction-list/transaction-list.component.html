@@ -1,0 +1,86 @@
+<!-- <div>
+    <ngx-datatable
+      #myTable
+      class="material fullscreen"
+      [rows]="rows"
+      [columns]="[{name:'Name'},{name:'Gender'},{name:'Company'}]"
+      [columnMode]="'force'"
+      [headerHeight]="50"
+      [loadingIndicator]="isLoading"
+      [scrollbarV]="true"
+      [footerHeight]="50"
+      [rowHeight]="50"
+      [externalPaging]="true"
+      [count]="page.totalElements"
+      [offset]="page.pageNumber"
+      (page)='setPage($event)'>
+    </ngx-datatable>
+  </div> -->
+
+  <div fxLayout="row" fxLayout.xs="column">
+      <div fxFlex="70%;" fxFlex.xs="80%">
+       
+         <app-transaction-detail (transactionDetailSaved)='updateTable($event)'></app-transaction-detail>
+       
+      </div>
+  
+      <!-- <div fxFlex="70%;" fxFlex.xs="80%">
+        
+            <ngx-datatable
+            #myTable
+           class="material fullscreen"
+           [columnMode]="'force'"
+           [headerHeight]="50"
+           [footerHeight]="50"
+           [rowHeight]="50"       
+           [loadingIndicator]="isLoading"
+           [rows]="transactions">     
+     
+           <ngx-datatable-column name="Type"  prop="transactionType"></ngx-datatable-column>
+           <ngx-datatable-column name="Date" prop="transactionDate"></ngx-datatable-column>
+           <ngx-datatable-column name="Category" prop="category"></ngx-datatable-column>
+           <ngx-datatable-column name="Sub Category" prop="subCatergoty"></ngx-datatable-column>
+           <ngx-datatable-column name="Amount" prop="amount"></ngx-datatable-column>
+           <ngx-datatable-column name="Action" prop="_id" [sortable]="false">
+                   <ng-template let-rowIndex="rowIndex" let-id="value" ngx-datatable-cell-template>
+                     <button class="btn btn-sm btn-danger" (click)="viewDetail(id)">
+                       <i class="fa fa-trash"></i> VIEW
+                     </button>
+                   </ng-template>
+           </ngx-datatable-column>
+         </ngx-datatable>
+        
+      </div> -->
+  
+      <!-- <mat-card fxFlex="20%;" fxFlex.xs="80%">
+        <mat-card-content>
+          <h2>Right Column </h2>
+        </mat-card-content>
+      </mat-card> -->
+    </div>
+
+  <!-- <div>
+      <ngx-datatable
+       #myTable
+      class="material fullscreen"
+      [columnMode]="'force'"
+      [headerHeight]="50"
+      [footerHeight]="50"
+      [rowHeight]="50"       
+      [loadingIndicator]="isLoading"
+      [rows]="transactions">     
+
+      <ngx-datatable-column name="Type"  prop="transactionType"></ngx-datatable-column>
+      <ngx-datatable-column name="Date" prop="transactionDate"></ngx-datatable-column>
+      <ngx-datatable-column name="Category" prop="category"></ngx-datatable-column>
+      <ngx-datatable-column name="Sub Category" prop="subCatergoty"></ngx-datatable-column>
+      <ngx-datatable-column name="Amount" prop="amount"></ngx-datatable-column>
+      <ngx-datatable-column name="Action" prop="_id" [sortable]="false">
+              <ng-template let-rowIndex="rowIndex" let-id="value" ngx-datatable-cell-template>
+                <button class="btn btn-sm btn-danger" (click)="viewDetail(id)">
+                  <i class="fa fa-trash"></i> VIEW
+                </button>
+              </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div> -->

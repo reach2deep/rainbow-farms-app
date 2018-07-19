@@ -1,0 +1,87 @@
+<mat-card *ngIf="!isCategoryVisible && !isPayeeVisible">    
+
+    <mat-card-title>    
+        New Transaction {{isCategoryVisible}}
+    </mat-card-title>    
+    
+    <mat-card-content>    
+        <form [formGroup]="newTransactionForm" #form="ngForm" (ngSubmit)="createNewTransaction(newTransactionForm.value)">    
+            <table>    
+                <tr>    
+                    <td>    
+                        <mat-form-field>    
+                            <mat-select placeholder="Select Transaction" [(value)]="selected" formControlName="transactionType" [(ngModel)]="transaction.transactionType">    
+                                <mat-option value="Expense">Expense</mat-option>    
+                                <mat-option value="Income">Income</mat-option>    
+                                <mat-option value="Bill">Bill</mat-option>    
+                            </mat-select>  
+                        </mat-form-field>    
+                    </td>    
+                    <td>    
+                        <mat-form-field >    
+                            <input matInput [matDatepicker]="picker" placeholder="Date" formControlName="transactionDate" [(ngModel)]="transaction.transactionDate">    
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>    
+                            <mat-datepicker touchUi="true" #picker></mat-datepicker>  
+                        </mat-form-field>    
+                    </td>    
+                </tr> 
+                <tr>    
+                    <td>    
+                        <mat-form-field>    
+                            <input matInput placeholder="Category/Sub Category" (focus)="toggleCategoryView()" (focusout)="toggleCategoryView()"
+                            formControlName="category" [(ngModel)]="transaction.category">    
+                        </mat-form-field>     
+                    </td> 
+                    <td>    
+                        <mat-form-field>    
+                            <!-- <input matInput placeholder="Account" formControlName="account" [(ngModel)]="transaction.account">     -->
+                            <mat-select placeholder="Account" [(value)]="selected" formControlName="account" [(ngModel)]="transaction.account">    
+                                    <mat-option value="Main Account">Main Account</mat-option>    
+                                    <mat-option value="Expense Account">Expense Account</mat-option>    
+                                    <mat-option value="Sales Account">Sales Account</mat-option>    
+                                </mat-select>  
+                        </mat-form-field>      
+                    </td>    
+                </tr>    
+
+                <tr>    
+                    <td>    
+                        <mat-form-field>    
+                            <input matInput placeholder="Payee" (focus)="togglePayeeView()" (focusout)="togglePayeeView()" 
+                            formControlName="payee" [(ngModel)]="transaction.payee">    
+                        </mat-form-field>      
+                    </td>    
+                    <td>    
+                        <mat-form-field>    
+                            <input matInput placeholder="Amount" formControlName="amount" [(ngModel)]="transaction.amount" >    
+                        </mat-form-field>      
+                    </td>    
+                </tr>
+                    
+                <tr>    
+                    <td colspan="1">    
+                        <mat-form-field>    
+                            <textarea matInput placeholder="Notes" formControlName="notes" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="5" [(ngModel)]="transaction.notes"></textarea>    
+                        </mat-form-field>    
+                    </td>    
+                </tr>    
+                       
+                <tr>    
+                    <td colspan="2" class="content-center">    
+                        <button mat-raised-button color="accent" type="submit" [disabled]="!newTransactionForm.valid">Submit</button>    
+                        <button mat-raised-button color="accent">Clear</button>    
+                    </td>    
+                </tr>    
+            </table>    
+        </form>    
+        <app-file-upload></app-file-upload>
+
+       
+        <pre>{{transaction | json}}</pre>
+        <pre>{{ newTransactionForm.value | json }}</pre>
+    </mat-card-content>    
+</mat-card>  
+
+<app-category *ngIf="isCategoryVisible && !isPayeeVisible" (selectedCategoryChange)="onCategorySelected($event)"></app-category>
+<app-payee *ngIf="isPayeeVisible" (selectedPayeeChange)="onPayeeSelected($event)"></app-payee>
+
