@@ -1,4 +1,4 @@
-import { AppConfig } from './../../config/app.config';
+import { AppConfig } from '../../config/app.config';
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';

@@ -1,5 +1,7 @@
+import { TransactionService } from './transactions/shared/transaction.service';
+import { MasterDataProvider } from './transactions/shared/master-data-provider';
 import { FileUploadComponent } from './shared/file-upload/file-upload.component';
-import {NgModule} from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule} from '@angular/forms';
 import {APP_CONFIG, AppConfig} from './config/app.config';
@@ -25,6 +27,10 @@ import 'hammerjs';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 
+export function masterProviderFactory(provider: MasterDataProvider) {
+  console.log('masterProviderFactory');
+  return () => provider.loadMasters();
+}
 
 @NgModule({
   imports: [
@@ -63,7 +69,9 @@ import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
   providers: [
     {provide: APP_CONFIG, useValue: AppConfig},
     {provide: HTTP_INTERCEPTORS, useClass: ProgressInterceptor, multi: true, deps: [ProgressBarService]},
-    {provide: HTTP_INTERCEPTORS, useClass: TimingInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: TimingInterceptor, multi: true},
+    MasterDataProvider, { provide: APP_INITIALIZER, useFactory: masterProviderFactory, deps: [MasterDataProvider], multi: true },
+    TransactionService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,12 +1,13 @@
+import { MasterDataProvider } from './shared/master-data-provider';
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 import { HttpClientModule } from '@angular/common/http';
-import { FileUploadComponent } from './../shared/file-upload/file-upload.component';
+import { FileUploadComponent } from '../shared/file-upload/file-upload.component';
 import { CategoryComponent } from './category/category.component';
-import { MockServerResultsService } from './../shared/paging/mock-server-results-service';
+import { MockServerResultsService } from '../shared/paging/mock-server-results-service';
 import { TransactionService } from './shared/transaction.service';
 import { TransactionListComponent } from './transaction-list/transaction-list.component';
 import { TransactionsRoutingModule } from './transactions-routing.module';
-import {NgModule} from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
@@ -23,6 +24,8 @@ import { PayeeComponent } from './payee/payee.component';
 // import {HeroDetailComponent} from './hero-detail/hero-detail.component';
 // import {HeroesComponent} from './heroes.component';
 
+
+
 @NgModule({
   imports: [
     CommonModule,
@@ -32,7 +35,7 @@ import { PayeeComponent } from './payee/payee.component';
     ReactiveFormsModule,
     NgxDatatableModule,
     HttpClientModule,
-SlimLoadingBarModule.forRoot()
+  SlimLoadingBarModule.forRoot(),
   ],
   declarations: [
     TransactionsComponent,
@@ -51,7 +54,8 @@ SlimLoadingBarModule.forRoot()
   ],
   providers: [
     TransactionService,
-    MockServerResultsService
+    MockServerResultsService,
+   
   ]
 })
 

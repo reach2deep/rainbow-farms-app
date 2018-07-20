@@ -1,10 +1,10 @@
-import { MockServerResultsService } from './../../shared/paging/mock-server-results-service';
-import { CorporateEmployee } from './../../shared/paging/corporate-employee';
-import { Page } from './../../shared/paging/page';
-import { AppConfig } from './../../config/app.config';
+import { MockServerResultsService } from '../../shared/paging/mock-server-results-service';
+import { CorporateEmployee } from '../../shared/paging/corporate-employee';
+import { Page } from '../../shared/paging/page';
+import { AppConfig } from '../../config/app.config';
 import { Router } from '@angular/router';
-import { TransactionService } from './../shared/transaction.service';
-import { Transaction } from './../shared/transaction.model';
+import { TransactionService } from '../shared/transaction.service';
+import { Transaction } from '../shared/transaction.model';
 import { Component, OnInit, ViewEncapsulation, AfterViewInit, ViewChild } from '@angular/core';
 
 @Component({
@@ -49,24 +49,24 @@ constructor(private serverResultsService: MockServerResultsService,
 
   @ViewChild('myTable') table;
 
-  private isLoading: boolean = false;
+  private isLoading = false;
 
- 
+
 
   ngAfterViewInit() {
-    this.table.bodyComponent.updatePage = function(direction: string): void {
-      let offset = this.indexes.first / this.pageSize;
+    // this.table.bodyComponent.updatePage = function(direction: string): void {
+    //   let offset = this.indexes.first / this.pageSize;
 
-      if (direction === 'up') {
-        offset = Math.ceil(offset);
-      } else if (direction === 'down') {
-        offset = Math.floor(offset);
-      }
+    //   if (direction === 'up') {
+    //     offset = Math.ceil(offset);
+    //   } else if (direction === 'down') {
+    //     offset = Math.floor(offset);
+    //   }
 
-      if (direction !== undefined && !isNaN(offset)) {
-        this.page.emit({ offset });
-      }
-    }
+    //   if (direction !== undefined && !isNaN(offset)) {
+    //     this.page.emit({ offset });
+    //   }
+    // }
   }
 
   /**
@@ -97,10 +97,10 @@ constructor(private serverResultsService: MockServerResultsService,
     });
   }
 
-  updateTable($event){
+  updateTable($event) {
 
     console.log(JSON.stringify($event));
-    
+
   }
 
 }

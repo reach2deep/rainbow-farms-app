@@ -17,3 +17,20 @@ export class Transaction {
   public approvedBy: string;
   public status: string;
 }
+
+export class Category {
+  public id: string;
+  public name: string;
+  public parent: Date;
+  public type: string;
+  public createdAt: string;
+}
+
+export class Payee {
+  public id: string;
+  public name: string;
+  public address: Date;
+  public mobile: string;
+  public notes: string;
+  public createdAt: string;
+}

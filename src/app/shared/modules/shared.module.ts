@@ -1,4 +1,4 @@
-import { FileUploadComponent } from './../file-upload/file-upload.component';
+import { FileUploadComponent } from '../file-upload/file-upload.component';
 import {ModuleWithProviders, NgModule} from '@angular/core';
 import {MaterialModule} from './material.module';
 import {TranslateModule} from '@ngx-translate/core';

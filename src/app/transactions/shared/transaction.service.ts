@@ -88,4 +88,13 @@ export class TransactionService {
     config.duration = AppConfig.snackBarDuration;
     this.snackBar.open(this.translations[name], 'OK', config);
   }
+
+  getAllMasters(): Observable<any> {
+    return this.http.get<Transaction[]>(AppConfig.endpoints.masters)
+      .pipe(
+        tap(heroes => LoggerService.log(`fetched masters`)),
+        catchError(this.handleError('getAllMasters', []))
+      );
+  }
+
 }

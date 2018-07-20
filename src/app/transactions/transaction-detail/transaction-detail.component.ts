@@ -1,5 +1,7 @@
-import { TransactionService } from './../shared/transaction.service';
-import { AppConfig } from './../../config/app.config';
+import { MasterDataProvider } from './../shared/master-data-provider';
+
+import { TransactionService } from '../shared/transaction.service';
+import { AppConfig } from '../../config/app.config';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
@@ -28,7 +30,8 @@ export class TransactionDetailComponent implements OnInit {
   constructor(private dialog: MatDialog,
     private router: Router,
     private formBuilder: FormBuilder,
-  private transactionService: TransactionService) {
+    private transactionService: TransactionService,
+    private masterdataService: MasterDataProvider) {
 
     this.transaction = new Transaction();
       this.newTransactionForm = this.formBuilder.group({
@@ -44,6 +47,9 @@ export class TransactionDetailComponent implements OnInit {
     }
 
   ngOnInit() {
+
+   // this.masterService.getMasters();
+   console.log('categoryList ' + JSON.stringify(this.masterdataService.getPayees()));
   }
 
   createNewTransaction(newTransaction: Transaction) {
