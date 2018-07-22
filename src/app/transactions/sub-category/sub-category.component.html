@@ -9,7 +9,7 @@
 <mat-nav-list>
     <mat-list-item (click)="setSubCategorySelected(subcategory)" *ngFor="let subcategory of subCategories">
         <mat-icon matListIcon>file</mat-icon>
-      <h3 class="name" matLine>{{subcategory}}</h3>      
+      <h3 class="name" matLine>{{subcategory.name}}</h3>      
     </mat-list-item>
   </mat-nav-list>
   </mat-card-content>
@@ -35,7 +35,7 @@
     <mat-card-content>
             <form>
                     <mat-form-field>
-                      <input name="editCat" type="text" matInput placeholder="Add new sub category" [(ngModel)]="addEditSubCategoryItem">
+                      <input name="editCat" type="text" matInput placeholder="Add new sub category" [(ngModel)]="addEditSubCategoryItem.name">
                       <!-- <mat-icon (click)="saveNewItem()" matSuffix>check</mat-icon> -->
                     </mat-form-field>
                    

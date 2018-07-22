@@ -1,3 +1,4 @@
+
 import { TransactionService } from './transactions/shared/transaction.service';
 import { MasterDataProvider } from './transactions/shared/master-data-provider';
 import { FileUploadComponent } from './shared/file-upload/file-upload.component';
@@ -20,12 +21,11 @@ import {TimingInterceptor} from './shared/interceptors/timing.interceptor';
 import {NgxExampleLibraryModule} from '@ismaestro/ngx-example-library';
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {environment} from '../environments/environment';
-import { TransactionListComponent } from './transactions/transaction-list/transaction-list.component';
-import { TransactionDetailComponent } from './transactions/transaction-detail/transaction-detail.component';
-import { TransactionsComponent } from './transactions/transactions.component';
+
 import 'hammerjs';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
+
 
 export function masterProviderFactory(provider: MasterDataProvider) {
   console.log('masterProviderFactory');
@@ -55,16 +55,13 @@ export function masterProviderFactory(provider: MasterDataProvider) {
       }
     }),
     CoreModule,
-    AppRoutingModule
+    AppRoutingModule,
+    
   ],
   declarations: [
     AppComponent,
     HeroTopComponent,
-  //  FileUploadComponent
-    // TransactionsComponent
-    // TransactionListComponent,
-    // TransactionDetailComponent,
-    // TransactionsRoutingComponent
+    
   ],
   providers: [
     {provide: APP_CONFIG, useValue: AppConfig},

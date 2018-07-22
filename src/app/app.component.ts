@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
               private meta: Meta,
               private snackBar: MatSnackBar,
               private router: Router) {
-    this.isOnline = navigator.onLine;
+    this.isOnline = true; // navigator.onLine;
   }
 
   ngOnInit() {

@@ -3,11 +3,12 @@ import { MasterDataProvider } from './../shared/master-data-provider';
 import { TransactionService } from '../shared/transaction.service';
 import { AppConfig } from '../../config/app.config';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { Transaction } from '../shared/transaction.model';
 import * as moment from 'moment';
+
 
 @Component({
   selector: 'app-transaction-detail',
@@ -18,6 +19,8 @@ export class TransactionDetailComponent implements OnInit {
 
   isCategoryVisible = false;
   isPayeeVisible = false;
+  isNumPadVisible = false;
+  url;
 
   @Output() transactionDetailSaved = new EventEmitter<Transaction>();
   transaction: Transaction;
@@ -25,13 +28,15 @@ export class TransactionDetailComponent implements OnInit {
   error: string;
   @ViewChild('form') myNgForm; // just to call resetForm method
 
-
+  filesToUpload: Array<File> = [];
 
   constructor(private dialog: MatDialog,
     private router: Router,
     private formBuilder: FormBuilder,
     private transactionService: TransactionService,
-    private masterdataService: MasterDataProvider) {
+    private masterdataService: MasterDataProvider,
+   // private location: Location,
+    private activatedRoute: ActivatedRoute) {
 
     this.transaction = new Transaction();
       this.newTransactionForm = this.formBuilder.group({
@@ -48,25 +53,30 @@ export class TransactionDetailComponent implements OnInit {
 
   ngOnInit() {
 
-   // this.masterService.getMasters();
-   console.log('categoryList ' + JSON.stringify(this.masterdataService.getPayees()));
+    const transactionId = this.activatedRoute.snapshot.paramMap.get('id');
+
+    if (transactionId) {
+    this.transactionService.getTransactionById(transactionId).subscribe((transaction: Transaction) => {
+      this.transaction = transaction;
+      console.log(JSON.stringify(this.transaction));
+    });
+  }
   }
 
   createNewTransaction(newTransaction: Transaction) {
 
      const transDateTime = new Date(moment(this.transaction.transactionDate).format('YYYY-MM-DD ')
                                         + moment().format('HH:mm'));
-    // let transDateTime= moment(this.transaction.transactionDate).format('YYYY-MM-DD ')
-     // + moment().format('HH:mm');
-     console.log(transDateTime);
      newTransaction.transactionDate = transDateTime;
 
-    // console.log(this.transaction.transactionDate);
-    // console.log(this.transaction.transactionDate);
-    console.log('newTransaction ' + JSON.stringify( newTransaction));
-    this.transactionService.createTransaction(newTransaction).subscribe((newTransactionWithId) => {
+     this.transactionService.uploadImage(this.filesToUpload).subscribe((uploadedImage: string) => {
+      this.transaction.attachments.uniqueName = uploadedImage;
+      this.transaction.attachments.name = 'this.filesToUpload.file';
+      console.log(JSON.stringify(this.transaction));
+    });
+
+      this.transactionService.createTransaction(newTransaction).subscribe((newTransactionWithId) => {
       this.transactionDetailSaved.emit(newTransactionWithId);
-      console.log('WITH ID' + JSON.stringify(newTransactionWithId));
       this.myNgForm.resetForm();
     }, (response: Response) => {
       if (response.status === 500) {
@@ -75,21 +85,16 @@ export class TransactionDetailComponent implements OnInit {
     });
   }
 
-//   subcribeToFormChanges() {
-//     const myFormStatusChanges$ = this.newTransactionForm.statusChanges;
-//     const myFormValueChanges$ = this.newTransactionForm.valueChanges;
-
-//     myFormStatusChanges$.subscribe(x => this.events.push({ event: 'STATUS_CHANGED', object: x }));
-//     myFormValueChanges$.subscribe(x => this.events.push({ event: 'VALUE_CHANGED', object: x }));
-// }
-
-
   toggleCategoryView() {
     this.isCategoryVisible = this.isCategoryVisible === true ? false : true;
   }
 
   togglePayeeView() {
     this.isPayeeVisible = this.isPayeeVisible === true ? false : true;
+  }
+
+  toggleNumberView() {
+  //  this.isNumPadVisible = this.isNumPadVisible === true ? false : true;
   }
 
   onCategorySelected(category) {
@@ -103,5 +108,33 @@ export class TransactionDetailComponent implements OnInit {
     this.transaction.payee = payee;
     this.togglePayeeView();
   }
+
+  upload() {
+    if (this.filesToUpload.length > 0) {
+    const files: Array<File> = this.filesToUpload;
+    this.transactionService.uploadImage(this.filesToUpload).subscribe((transaction: Transaction) => {
+      this.transaction = transaction;
+      console.log(JSON.stringify(this.transaction));
+    });
+  }
+}
+
+fileChangeEvent(event: any) {
+  console.log('fileChangeEvent');
+  const files = event.srcElement.files;
+  console.log(files);
+    this.filesToUpload = <Array<File>>event.target.files;
+
+    if (event.target.files && event.target.files[0]) {
+      var reader = new FileReader();
+  
+      reader.onload = (event: ProgressEvent) => {
+        this.url = (<FileReader>event.target).result;
+      }
+  
+      reader.readAsDataURL(event.target.files[0]);
+    }
+
+    }
 }
 

@@ -72,6 +72,7 @@ export class HeroListComponent implements OnInit {
 
   seeHeroDetails(hero): void {
     if (hero.default) {
+      console.log('routing ' + [AppConfig.routes.heroes + '/' + hero.id]);
       this.router.navigate([AppConfig.routes.heroes + '/' + hero.id]);
     }
   }

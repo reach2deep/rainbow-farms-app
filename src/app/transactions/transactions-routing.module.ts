@@ -14,7 +14,8 @@ import { TransactionsComponent } from './transactions.component';
 const transactionsRoutes: Routes = [
 
   {path: '', component: TransactionListComponent},
-  {path: 'detail', component: TransactionDetailComponent,
+  {path: 'detail', component: TransactionDetailComponent},
+  {path: ':id', component: TransactionDetailComponent,
   // children: [
   //   {
   //       path: 'category',

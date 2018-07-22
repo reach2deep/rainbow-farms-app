@@ -10,7 +10,7 @@
     <mat-nav-list>
       <mat-list-item (click)="setCategorySelected(category)" *ngFor="let category of categories">
         <mat-icon matListIcon>folder</mat-icon>
-        <h3 class="name" matLine>{{category}}</h3>
+        <h3 class="name" matLine>{{category.name}}</h3>
       </mat-list-item>
     </mat-nav-list>
   </mat-card-content>

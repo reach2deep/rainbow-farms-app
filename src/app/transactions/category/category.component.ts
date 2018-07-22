@@ -1,3 +1,5 @@
+import { Category } from './../shared/transaction.model';
+import { MasterDataProvider } from './../shared/master-data-provider';
 import {
   Component,
   OnInit,
@@ -14,19 +16,24 @@ export class CategoryComponent implements OnInit {
 
   @Output() selectedCategoryChange = new EventEmitter < string > ();
 
-  categories: string[] = ['Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers']; 
+  categories: Category[] ; // = ['Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers']; 
   canSelectSubCategory = false;
   canAddEditItem = false;
   isEditEnabled = false;
-  selectedCategory: string;
-  addEditCategoryItem: string;
+  selectedCategory: Category;
+  addEditCategoryItem: Category;
 
 
-  constructor() {}
+  constructor(private masterdataService: MasterDataProvider) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log('categoryList ' + JSON.stringify(this.masterdataService.getCategories()));
+    this.categories = this.masterdataService.getCategories();
+
+  }
 
   setCategorySelected(category) {
+    console.log('category ' + JSON.stringify(category));
     if (!this.isEditEnabled) {
       this.selectedCategory = category;
       this.canSelectSubCategory = true;
@@ -39,7 +46,7 @@ export class CategoryComponent implements OnInit {
 
   setSelectedSubCategory(subcategory) {
    this.canSelectSubCategory = false;
-    this.selectedCategoryChange.emit(this.selectedCategory + '/' + subcategory);
+    this.selectedCategoryChange.emit(this.selectedCategory.name + '/' + subcategory.name);
   }
 
   addNewItem() {

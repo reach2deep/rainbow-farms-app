@@ -1,3 +1,6 @@
+import { inject } from '@angular/core/testing';
+import { PagedData } from './../../shared/paging/paged-data';
+import { Page } from './../../shared/paging/page';
 import {Observable, of, throwError as observableThrowError} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
@@ -43,6 +46,22 @@ export class TransactionService {
       // Let the app keep running by returning an empty result.
       return of(result as T);
     };
+  }
+
+  uploadImage(filesToUpload: any): Observable<any> {
+
+    const files: Array<File> = filesToUpload;
+    console.log(files);
+    const formData: any = new FormData();
+    for (let i = 0; i < files.length; i++) {
+       formData.append('uploads[]', files[i], files[i]['name']);
+    }
+
+    return this.http.post(AppConfig.endpoints.fileupload, formData)
+        .pipe(
+          tap(response => LoggerService.log('updated')),
+          catchError(this.handleError('uploadImage', []))
+        );
   }
 
   getTransactions(): Observable<Transaction[]> {

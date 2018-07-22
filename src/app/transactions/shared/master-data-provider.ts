@@ -18,6 +18,10 @@ export class MasterDataProvider  {
     return this.payeeList;
 }
 
+public getCategories(): Category[] {
+  return this.categoryList;
+}
+
   loadMasters(): void {
 
     console.log('Loading Masters...');

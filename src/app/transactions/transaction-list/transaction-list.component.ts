@@ -13,96 +13,43 @@ import { Component, OnInit, ViewEncapsulation, AfterViewInit, ViewChild } from '
   styleUrls: ['./transaction-list.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class TransactionListComponent implements OnInit, AfterViewInit {
+export class TransactionListComponent implements OnInit {
 
    transactions: Transaction[];
 
-//   constructor(private transactionService: TransactionService,
-//     private router: Router) {
+  //  filterString = 'Expense';
+  //  page = new Page();
+  //  rows = new Array<Transaction>();
 
-//   }
-
-constructor(private serverResultsService: MockServerResultsService,
-            private transactionService: TransactionService) {
-  this.setPage({offset: 0, pageSize: 10});
+constructor(private transactionService: TransactionService,
+            private router: Router) {
+              // this.page.pageNumber = 0;
+              // this.page.size = 20;
 }
 
   ngOnInit() {
-    this.transactionService.getTransactions().subscribe((heroes: Array<Transaction>) => {
-      this.transactions = heroes;
+  //  this.setPage({ offset: 0 });
+    this.transactionService.getTransactions().subscribe((transactions: Array<Transaction>) => {
+      this.transactions = transactions;
     });
   }
 
-//   viewDetail(id): void {
-//     console.log(id);
-//     if (id) {
-//       console.log('routing' + [AppConfig.routes.transaction + '/' + id]);
-//       this.router.navigate([AppConfig.routes.transaction + '/' + id]);
-//     }
-//   }
+  // setPage(pageInfo) {
+  //   this.page.pageNumber = pageInfo.offset;
+  //   this.transactionService.getTransactions(this.page).subscribe(pagedData => {
+  //     this.page = pagedData.page;
+  //     this.rows = pagedData.data;
+  //   });
+  // }
+
+  viewDetail(id): void {
+    console.log(id);
+    if (id) {
+      console.log('routing ' + [AppConfig.routes.transactions + '/' + id]);
+      this.router.navigate([AppConfig.routes.transactions + '/' + id]);
+    }
+  }
 // }
-
-
-  page = new Page();
-  rows = new Array<CorporateEmployee>();
-  cache: any = {};
-
-  @ViewChild('myTable') table;
-
-  private isLoading = false;
-
-
-
-  ngAfterViewInit() {
-    // this.table.bodyComponent.updatePage = function(direction: string): void {
-    //   let offset = this.indexes.first / this.pageSize;
-
-    //   if (direction === 'up') {
-    //     offset = Math.ceil(offset);
-    //   } else if (direction === 'down') {
-    //     offset = Math.floor(offset);
-    //   }
-
-    //   if (direction !== undefined && !isNaN(offset)) {
-    //     this.page.emit({ offset });
-    //   }
-    // }
-  }
-
-  /**
-   * Populate the table with new data based on the page number
-   * @param page The page to select
-   */
-  setPage(pageInfo) {
-    this.isLoading = true;
-    this.page.pageNumber = pageInfo.offset;
-    this.page.size = pageInfo.pageSize;
-
-    this.serverResultsService.getResults(this.page).subscribe(pagedData => {
-      this.page = pagedData.page;
-
-      let rows = this.rows;
-      if (rows.length !== pagedData.page.totalElements) {
-        rows = Array.apply(null, Array(pagedData.page.totalElements));
-        rows = rows.map((x, i) => this.rows[i]);
-      }
-
-      // calc start
-      const start = this.page.pageNumber * this.page.size;
-
-      // set rows to our new rows
-      pagedData.data.map((x, i) => rows[i + start] = x);
-      this.rows = rows;
-      this.isLoading = false;
-    });
-  }
-
-  updateTable($event) {
-
-    console.log(JSON.stringify($event));
-
-  }
-
 }
 
 

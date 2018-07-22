@@ -1,11 +1,11 @@
-<mat-card *ngIf="!isCategoryVisible && !isPayeeVisible">
+<mat-card *ngIf="!isCategoryVisible && !isPayeeVisible && !isNumPadVisible">
 
     <mat-card-title>
-        New Transaction {{isCategoryVisible}}
+        New Transaction
     </mat-card-title>
 
     <mat-card-content>
-        <form [formGroup]="newTransactionForm" #form="ngForm" (ngSubmit)="createNewTransaction(newTransactionForm.value)">
+        <form [formGroup]="newTransactionForm" #form="ngForm" >
             <table>
                 <tr>
                     <td>
@@ -51,7 +51,7 @@
                     </td>
                     <td>
                         <mat-form-field>
-                            <input matInput placeholder="Amount" formControlName="amount" [(ngModel)]="transaction.amount">
+                            <input matInput placeholder="Amount" (focus)="toggleNumberView()" (focusout)="toggleNumberView()" formControlName="amount" [(ngModel)]="transaction.amount">
                         </mat-form-field>
                     </td>
                 </tr>
@@ -66,19 +66,60 @@
 
                 <tr>
                     <td colspan="2" class="content-center">
-                        <button mat-raised-button color="accent" type="submit" [disabled]="!newTransactionForm.valid">Submit</button>
+                        <button mat-raised-button color="accent" (click)="createNewTransaction(newTransactionForm.value)" [disabled]="!newTransactionForm.valid">Submit</button>
                         <button mat-raised-button color="accent">Clear</button>
                     </td>
                 </tr>
+                <tr>
+                        <div class="container">
+                                <button mat-raised-button color="primary" (click)="fileInput.click()">Add Files</button>
+                                <input id="cin" name="cin" hidden type="file" #fileInput (change)="fileChangeEvent($event)">
+                        </div>
+                        <img [src]="url" height="150" width="150">
+                        <!-- <input type="file" ng2FileSelect [uploader]="uploader"> -->
+                    <!-- <div>
+                        <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image"/>
+                      </div>
+
+                      <div>
+                        <button mat-raised-button color="accent">
+                          <label for="select">Select image</label>
+                        </button>
+                        <input mat-raised-button color="accent">
+                        <button mat-raised-button color="accent">
+                          <label for="change">Change</label>
+                        </button>
+                        <input>
+                        <button mat-raised-button color="accent">
+                          <label for="cancel">Remove</label>
+                        </button>
+                        <input class="file-input" id="cancel">
+                      </div> -->
+                </tr>
             </table>
         </form>
+
+        <!-- <input id="cin" name="cin" type="file" (change)="fileChangeEvent($event)" placeholder="Upload a file..." multiple/>
+
+<button type="button" class="btn btn-success btn-s" (click)="upload()">
+    <i class="glyphicon glyphicon-open-file"></i>&nbsp;Upload
+</button> -->
+
+        <!-- <input type="file" name="photo" ng2FileSelect [uploader]="uploader" />
+
+<button type="button" class="btn btn-success btn-s" 
+  (click)="uploader.uploadAll()" 
+  [disabled]="!uploader.getNotUploadedItems().length" >
+      Upload an Image
+</button> -->
         <!-- <app-file-upload></app-file-upload> -->
 
 
-        <pre>{{transaction | json}}</pre>
-        <pre>{{ newTransactionForm.value | json }}</pre>
+        <!-- <pre>{{transaction | json}}</pre>
+        <pre>{{ newTransactionForm.value | json }}</pre> -->
     </mat-card-content>
 </mat-card>
 
 <app-category *ngIf="isCategoryVisible && !isPayeeVisible" (selectedCategoryChange)="onCategorySelected($event)"></app-category>
 <app-payee *ngIf="isPayeeVisible" (selectedPayeeChange)="onPayeeSelected($event)"></app-payee>
+<app-number-view *ngIf="isNumPadVisible"></app-number-view>

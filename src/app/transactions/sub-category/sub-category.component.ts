@@ -1,3 +1,5 @@
+import { Category } from './../shared/transaction.model';
+import { MasterDataProvider } from './../shared/master-data-provider';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
@@ -9,16 +11,19 @@ export class SubCategoryComponent implements OnInit {
 
   @Output() selectedSubcategory = new EventEmitter<string>();
 
-  subCategories: string[] = ['Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers'];
+  subCategories: Category[] ; // = ['Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers'];
   canAddEditItem = false;
   isEditEnabled = false;
   selectedSubCategory: string;
   addEditSubCategoryItem: string;
 
 
-  constructor() { }
+  constructor(private masterdataService: MasterDataProvider) {}
 
   ngOnInit() {
+    console.log('subCategories List ' + JSON.stringify(this.masterdataService.getCategories()));
+    this.subCategories = this.masterdataService.getCategories();
+
   }
 
   setSubCategorySelected(subcategory) {

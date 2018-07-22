@@ -18,6 +18,7 @@ import { TransactionsComponent } from './transactions.component';
 import { TransactionDetailComponent } from './transaction-detail/transaction-detail.component';
 import { SubCategoryComponent } from './sub-category/sub-category.component';
 import { PayeeComponent } from './payee/payee.component';
+import { NumberViewComponent } from './number-view/number-view.component';
 
 // import {HeroListComponent, RemoveHeroDialogComponent} from './hero-list/hero-list.component';
 // import {HeroService} from './shared/hero.service';
@@ -36,6 +37,7 @@ import { PayeeComponent } from './payee/payee.component';
     NgxDatatableModule,
     HttpClientModule,
   SlimLoadingBarModule.forRoot(),
+   
   ],
   declarations: [
     TransactionsComponent,
@@ -44,7 +46,9 @@ import { PayeeComponent } from './payee/payee.component';
     CategoryComponent,
     SubCategoryComponent,
     PayeeComponent,
-    FileUploadComponent
+    FileUploadComponent,
+    NumberViewComponent,
+    // 
     // HeroListComponent,
     // RemoveHeroDialogComponent,
     // HeroDetailComponent

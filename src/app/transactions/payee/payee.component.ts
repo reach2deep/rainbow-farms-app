@@ -1,3 +1,5 @@
+import { Payee } from './../shared/transaction.model';
+import { MasterDataProvider } from './../shared/master-data-provider';
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 
 @Component({
@@ -9,22 +11,25 @@ export class PayeeComponent implements OnInit {
 
   @Output() selectedPayeeChange = new EventEmitter<string>();
 
-  payees: string[] = ['Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers'];
+  payees: Payee[] ; // = ['Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers'];
 
-  selectedPayee: string;
+  selectedPayee: Payee;
   canAddEditItem = false;
   isEditEnabled = false;
   addEditPayeeItem: string;
 
-  constructor() { }
+  constructor(private masterdataService: MasterDataProvider) {}
 
   ngOnInit() {
+  //  console.log('categoryList ' + JSON.stringify(this.masterdataService.getCategories()));
+    this.payees = this.masterdataService.getPayees();
+
   }
 
    setSelectedPayee(payee) {
     if (!this.isEditEnabled) {
     this.selectedPayee = payee;
-     this.selectedPayeeChange.emit(this.selectedPayee);
+     this.selectedPayeeChange.emit(this.selectedPayee.name);
     } else {
       this.isEditEnabled = true;
       this.canAddEditItem = true;
