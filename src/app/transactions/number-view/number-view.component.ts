@@ -17,7 +17,7 @@ export class NumberViewComponent implements OnInit {
   }
 
 
-  buildNumber(num: String): void {
+  buildNumber(num: string): void {
     console.log(num);
 
     this.displayNumber += num;

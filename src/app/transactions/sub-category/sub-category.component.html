@@ -1,44 +1,43 @@
-<mat-card *ngIf="(!canSelectSubCategory && !canAddEditItem)">
+<mat-card *ngIf="(!canAddEditItem)">
     <mat-card-header>
-      Sub Category
-      <button mat-button (click)="editList()">
+        Sub Category
+        <button mat-button (click)="editList()">
         <mat-icon>edit</mat-icon>
       </button>
     </mat-card-header>
-      <mat-card-content>
-<mat-nav-list>
-    <mat-list-item (click)="setSubCategorySelected(subcategory)" *ngFor="let subcategory of subCategories">
-        <mat-icon matListIcon>file</mat-icon>
-      <h3 class="name" matLine>{{subcategory.name}}</h3>      
-    </mat-list-item>
-  </mat-nav-list>
-  </mat-card-content>
-  <mat-card-actions *ngIf="isEditEnabled">
-      <mat-list-item (click)="addNewItem('')">
-              <mat-icon matListIcon>add</mat-icon>
-              <h3 class="name" matLine>Add new </h3>
-            </mat-list-item>    
-</mat-card-actions>
+    <mat-card-content>
+        <mat-nav-list>
+            <mat-list-item (click)="setSubCategorySelected(subcategory)" *ngFor="let subcategory of subCategories">
+                <mat-icon matListIcon>file</mat-icon>
+                <h3 class="name" matLine>{{subcategory.name}}</h3>
+            </mat-list-item>
+        </mat-nav-list>
+    </mat-card-content>
+    <mat-card-actions *ngIf="isEditEnabled">
+        <mat-list-item (click)="addNewItem('')">
+            <mat-icon matListIcon>add</mat-icon>
+            <h3 class="name" matLine>Add new </h3>
+        </mat-list-item>
+    </mat-card-actions>
 
 </mat-card>
 
 <mat-card *ngIf="canAddEditItem">
     <mat-card-header>
-            <button mat-button (click)="cancelAddEditItem()">
+        <button mat-button (click)="cancelAddEditItem()">
                     <mat-icon>cancel</mat-icon>
-                  </button>
-      Edit Sub Category
-      <button mat-button (click)="saveItem()">
+                  </button> Edit Sub Category
+        <button mat-button (click)="saveItem()">
         <mat-icon>save</mat-icon>
       </button>
     </mat-card-header>
     <mat-card-content>
-            <form>
-                    <mat-form-field>
-                      <input name="editCat" type="text" matInput placeholder="Add new sub category" [(ngModel)]="addEditSubCategoryItem.name">
-                      <!-- <mat-icon (click)="saveNewItem()" matSuffix>check</mat-icon> -->
-                    </mat-form-field>
-                   
-                  </form>
-    </mat-card-content>        
-  </mat-card>
+        <form>
+            <mat-form-field>
+                <input name="editCat" type="text" matInput placeholder="Add new sub category" [(ngModel)]="addEditSubCategoryItem.name">
+                <!-- <mat-icon (click)="saveNewItem()" matSuffix>check</mat-icon> -->
+            </mat-form-field>
+
+        </form>
+    </mat-card-content>
+</mat-card>
