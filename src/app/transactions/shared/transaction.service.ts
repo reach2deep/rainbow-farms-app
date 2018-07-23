@@ -10,7 +10,7 @@ import {catchError, tap} from 'rxjs/operators';
 import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
 import {LoggerService} from '../../core/shared/logger.service';
-import { Transaction } from './transaction.model';
+import { Transaction, Category } from './transaction.model';
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -115,5 +115,46 @@ export class TransactionService {
         catchError(this.handleError('getAllMasters', []))
       );
   }
+
+  createCategory(newCategory: Category): Observable<Category> {
+    return this.http.post<Category>(AppConfig.endpoints.category, JSON.stringify({
+            name: newCategory.name,
+            parent: newCategory.parent,
+            type: newCategory.type,
+    }), httpOptions).pipe(
+      tap((CategorySaved: Category) => {
+        LoggerService.log(`added Category w/ id=${CategorySaved.id}`);
+        this.showSnackBar('Category Created');
+      }),
+      catchError(this.handleError<Category>('createCategory'))
+    );
+  }
+
+  updateCategoryById(updateCategory: Category): Observable<Category> {
+    console.log('updateCategoryById' +   JSON.stringify(updateCategory['_id']));
+    const url = `${AppConfig.endpoints.category}/${updateCategory['_id']}`;
+
+    return this.http.put<Category>(url, JSON.stringify({
+            name: updateCategory.name,
+            parent: updateCategory.parent,
+            type: updateCategory.type,
+        }), httpOptions).pipe(
+        tap((CategorySaved: Category) => {
+          LoggerService.log(`updated Category w/ id=${CategorySaved}`);
+          this.showSnackBar('Category update');
+        }),
+        catchError(this.handleError<Category>('updateCategoryById'))
+        );
+  }
+
+  deleteCategoryById(id: any): Observable<Category> {
+    const url = `${AppConfig.endpoints.category}/${id}`;
+
+    return this.http.delete<Category>(url, httpOptions).pipe(
+      tap(() => LoggerService.log(`deleted Category id=${id}`)),
+      catchError(this.handleError<Category>('deleteCategory'))
+    );
+  }
+
 
 }

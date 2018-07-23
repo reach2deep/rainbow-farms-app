@@ -8,7 +8,10 @@ export class Transaction {
   public payee: string;
   public amount: Number;
   public notes: string;
-  public attachments: { name: string, uniqueName: string };
+  public attachments: {
+    name: string,
+    uniqueName: string
+  };
   public createdAt: Date;
   public createdBy: string;
   public modifiedAt: Date;
@@ -17,46 +20,58 @@ export class Transaction {
   public approvedBy: string;
   public status: string;
 
-//   constructor(id: string,
-//      transactionType: string,
-//      transactionDate: Date,
-//      category: string,
-//      subCategory: string,
-//      account: string,
-//      payee: string,
-//      amount: Number,
-//      notes: string,
-//      createdAt: Date,
-//      createdBy: string,
-//      modifiedAt: Date,
-//      modifiedBy: string,
-//      approvedAt: Date,
-//      approvedBy: string) {
-//       this.id = id;
-//       this.transactionType = transactionType;
-//       this.transactionDate = transactionDate;
-//       this.category = category;
-//       this.subCategory = subCategory;
-//       this.account = account;
-//       this.payee = payee;
-//       this.amount = amount;
-//       this.notes = notes;
-//       this.createdAt = createdAt;
-//       this.createdBy = createdBy;
-//       this.modifiedAt = modifiedAt;
-//       this.modifiedBy = modifiedBy;
-//       this.approvedAt = approvedAt;
-//       this.approvedBy = approvedBy;
-//       this.status = status;
-// }
+  //   constructor(id: string,
+  //      transactionType: string,
+  //      transactionDate: Date,
+  //      category: string,
+  //      subCategory: string,
+  //      account: string,
+  //      payee: string,
+  //      amount: Number,
+  //      notes: string,
+  //      createdAt: Date,
+  //      createdBy: string,
+  //      modifiedAt: Date,
+  //      modifiedBy: string,
+  //      approvedAt: Date,
+  //      approvedBy: string) {
+  //       this.id = id;
+  //       this.transactionType = transactionType;
+  //       this.transactionDate = transactionDate;
+  //       this.category = category;
+  //       this.subCategory = subCategory;
+  //       this.account = account;
+  //       this.payee = payee;
+  //       this.amount = amount;
+  //       this.notes = notes;
+  //       this.createdAt = createdAt;
+  //       this.createdBy = createdBy;
+  //       this.modifiedAt = modifiedAt;
+  //       this.modifiedBy = modifiedBy;
+  //       this.approvedAt = approvedAt;
+  //       this.approvedBy = approvedBy;
+  //       this.status = status;
+  // }
 }
 
 export class Category {
   public id: string;
   public name: string;
-  public parent: Date;
+  public parent: string;
   public type: string;
   public createdAt: string;
+
+  constructor(id: string,
+    name: string,
+    parent: string,
+    type: string,
+  ) {
+    this.id = id;
+    this.name = name;
+    this.parent = parent;
+    this.type = type;
+  }
+
 }
 
 export class Payee {

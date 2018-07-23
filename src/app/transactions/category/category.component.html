@@ -1,4 +1,10 @@
 
+ <mat-progress-spinner *ngIf="!categories"
+ class="progress__spinner"
+ [color]="'primary'"
+ [mode]="'indeterminate'">
+</mat-progress-spinner>
+
 <mat-card *ngIf="(!canSelectSubCategory && !canAddEditItem)" >
   <mat-card-header>
     Category
@@ -11,11 +17,14 @@
       <mat-list-item (click)="setCategorySelected(category)" *ngFor="let category of categories">
         <mat-icon matListIcon>folder</mat-icon>
         <h3 class="name" matLine>{{category.name}}</h3>
+        <button *ngIf="isEditEnabled" mat-button (click)="deleteItem(category)">
+            <mat-icon>delete</mat-icon>
+          </button>
       </mat-list-item>
     </mat-nav-list>
   </mat-card-content>
   <mat-card-actions *ngIf="isEditEnabled">
-        <mat-list-item (click)="addNewItem('')">
+        <mat-list-item (click)="addNewItem()">
                 <mat-icon matListIcon>add</mat-icon>
                 <h3 class="name" matLine>Add new </h3>
               </mat-list-item>    
@@ -35,7 +44,7 @@
         <mat-card-content>
                 <form>
                         <mat-form-field>
-                          <input name="editCat" type="text" matInput placeholder="Add new category" [(ngModel)]="addEditCategoryItem">
+                          <input name="editCat" type="text" matInput placeholder="Add new category" [(ngModel)]="addEditCategoryItem.name">
                           <!-- <mat-icon (click)="saveNewItem()" matSuffix>check</mat-icon> -->
                         </mat-form-field>
                        
@@ -44,3 +53,5 @@
       </mat-card>
 
 <app-sub-category *ngIf="canSelectSubCategory" (selectedSubcategory)="setSelectedSubCategory($event)"></app-sub-category>
+
+<div class="clear"></div>

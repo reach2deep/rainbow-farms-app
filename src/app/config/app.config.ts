@@ -13,6 +13,7 @@ export const AppConfig: IAppConfig = {
   endpoints: {
     heroes: 'https://nodejs-example-app.herokuapp.com/heroes',
     transactions: 'http://localhost:3000/api/transaction',
+    category: 'http://localhost:3000/api/category',
     fileupload: 'http://localhost:3000/api/upload',
     masters: 'http://localhost:3000/api/masters'
   },

@@ -15,6 +15,7 @@ const transactionsRoutes: Routes = [
 
   {path: '', component: TransactionListComponent},
   {path: 'detail', component: TransactionDetailComponent},
+  {path: 'cat', component: CategoryComponent},
   {path: ':id', component: TransactionDetailComponent,
   // children: [
   //   {

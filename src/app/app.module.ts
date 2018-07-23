@@ -27,10 +27,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 
 
-export function masterProviderFactory(provider: MasterDataProvider) {
-  console.log('masterProviderFactory');
-  return () => provider.loadMasters();
-}
+// export function masterProviderFactory(provider: MasterDataProvider) {
+//   console.log('masterProviderFactory');
+//   return () => provider.loadMasters();
+// }
 
 @NgModule({
   imports: [
@@ -56,18 +56,18 @@ export function masterProviderFactory(provider: MasterDataProvider) {
     }),
     CoreModule,
     AppRoutingModule,
-    
+
   ],
   declarations: [
     AppComponent,
     HeroTopComponent,
-    
+
   ],
   providers: [
     {provide: APP_CONFIG, useValue: AppConfig},
     {provide: HTTP_INTERCEPTORS, useClass: ProgressInterceptor, multi: true, deps: [ProgressBarService]},
     {provide: HTTP_INTERCEPTORS, useClass: TimingInterceptor, multi: true},
-    MasterDataProvider, { provide: APP_INITIALIZER, useFactory: masterProviderFactory, deps: [MasterDataProvider], multi: true },
+    // MasterDataProvider, { provide: APP_INITIALIZER, useFactory: masterProviderFactory, deps: [MasterDataProvider], multi: true },
     TransactionService
   ],
   bootstrap: [AppComponent]
