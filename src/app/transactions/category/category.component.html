@@ -39,10 +39,15 @@
     <mat-card-header>
         <button mat-button (click)="cancelAddEditItem()">
                         <mat-icon>cancel</mat-icon>
-                      </button> Edit Category
+                       
+                      </button>
+        <div fxFlex></div>
+        Edit Category
+        <div fxFlex></div>
         <button mat-button (click)="saveItem()">
             <mat-icon>save</mat-icon>
           </button>
+
     </mat-card-header>
     <mat-card-content>
         <form>
@@ -53,6 +58,6 @@
     </mat-card-content>
 </mat-card>
 
-<app-sub-category *ngIf="canSelectSubCategory" (selectedSubcategory)="setSelectedSubCategory($event)"></app-sub-category>
+<app-sub-category *ngIf="canSelectSubCategory" [parentCategory]="selectedCategory" (selectedSubcategory)="setSelectedSubCategory($event)"></app-sub-category>
 
 <div class="clear"></div>

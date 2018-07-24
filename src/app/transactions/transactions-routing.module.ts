@@ -1,3 +1,4 @@
+import { TransactionsModule } from './transactions.module';
 import { SubCategoryComponent } from './sub-category/sub-category.component';
 import { CategoryComponent } from './category/category.component';
 
@@ -14,7 +15,8 @@ import { TransactionsComponent } from './transactions.component';
 const transactionsRoutes: Routes = [
 
   {path: '', component: TransactionListComponent},
-  {path: 'detail', component: TransactionDetailComponent},
+  // {path: 'new', component: TransactionDetailComponent},
+  {path : 'new', loadChildren : './transactions.module#TransactionDetailComponent'},
   {path: 'cat', component: CategoryComponent},
   {path: ':id', component: TransactionDetailComponent,
   // children: [

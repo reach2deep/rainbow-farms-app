@@ -1,3 +1,4 @@
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { MasterDataProvider } from './shared/master-data-provider';
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 import { HttpClientModule } from '@angular/common/http';
@@ -19,6 +20,7 @@ import { TransactionDetailComponent } from './transaction-detail/transaction-det
 import { SubCategoryComponent } from './sub-category/sub-category.component';
 import { PayeeComponent } from './payee/payee.component';
 import { NumberViewComponent } from './number-view/number-view.component';
+import {NgcFloatButtonModule} from 'ngc-float-button';
 
 // import {HeroListComponent, RemoveHeroDialogComponent} from './hero-list/hero-list.component';
 // import {HeroService} from './shared/hero.service';
@@ -37,7 +39,8 @@ import { NumberViewComponent } from './number-view/number-view.component';
     NgxDatatableModule,
     HttpClientModule,
   SlimLoadingBarModule.forRoot(),
-   
+  NgcFloatButtonModule,
+  AngularFontAwesomeModule
   ],
   declarations: [
     TransactionsComponent,
@@ -48,18 +51,22 @@ import { NumberViewComponent } from './number-view/number-view.component';
     PayeeComponent,
     FileUploadComponent,
     NumberViewComponent,
-    // 
+    //
     // HeroListComponent,
     // RemoveHeroDialogComponent,
     // HeroDetailComponent
   ],
+    //   exports: [
+    //     CommonModule,
+
+    // ],
   entryComponents: [
     // RemoveHeroDialogComponent
   ],
   providers: [
     TransactionService,
     MockServerResultsService,
-   
+
   ]
 })
 

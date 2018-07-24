@@ -1,4 +1,5 @@
 import { Observable } from 'rxjs';
+import * as _ from 'lodash';
 import { TransactionService } from './../shared/transaction.service';
 import { Category } from './../shared/transaction.model';
 import { MasterDataProvider } from './../shared/master-data-provider';
@@ -35,7 +36,8 @@ export class CategoryComponent implements OnInit {
     this.transactionService.getAllMasters().subscribe((masters: any) => {
       // this.payeeList = masters['payees'];
       this.categories = masters['categories'];
-      console.log('Masters Loaded ' +   JSON.stringify(masters));
+      this.categories = _.filter(this.categories, { 'parent': ''});
+      console.log('Masters Loaded ' +   JSON.stringify(this.categories));
     });
 
     // console.log('categoryList ' + JSON.stringify(this.masterdataService.getCategories()));
@@ -121,12 +123,5 @@ export class CategoryComponent implements OnInit {
     console.log('cancelAddEditItem');
   }
 
-  // addElementToObservableArray(item) {
-  //   this.array$.pipe(take(1)).subscribe(val => {
-  //     console.log(val)
-  //     const newArr = [...val, item];
-  //     this.obsArray.next(newArr);
-  //   })
-  // }
 
 }

@@ -1,6 +1,8 @@
+import { TransactionService } from './../shared/transaction.service';
 import { Category } from './../shared/transaction.model';
 import { MasterDataProvider } from './../shared/master-data-provider';
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-sub-category',
@@ -11,18 +13,29 @@ export class SubCategoryComponent implements OnInit {
 
   @Output() selectedSubcategory = new EventEmitter<string>();
 
-  subCategories: Category[] ; // = ['Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers'];
+  @Input() parentCategory: Category;
+
+  subCategories: Category[] ;
   canAddEditItem = false;
   isEditEnabled = false;
   selectedSubCategory: string;
-  addEditSubCategoryItem: string;
+  addEditSubCategoryItem: Category;
 
 
-  constructor(private masterdataService: MasterDataProvider) {}
+  constructor(private masterdataService: MasterDataProvider,
+    private transactionService: TransactionService) {}
 
   ngOnInit() {
-    console.log('subCategories List ' + JSON.stringify(this.masterdataService.getCategories()));
-    this.subCategories = this.masterdataService.getCategories();
+    console.log('parentCategory ' +  JSON.stringify(this.parentCategory));
+    // console.log('subCategories List ' + JSON.stringify(this.masterdataService.getCategories()));
+    // this.subCategories = this.masterdataService.getCategories();
+
+    this.transactionService.getAllMasters().subscribe((masters: any) => {
+      // this.payeeList = masters['payees'];
+      this.subCategories = masters['categories'];
+      this.subCategories = _.filter(this.subCategories, { 'parent': this.parentCategory.name});
+      console.log('Masters Loaded ' +   JSON.stringify(masters));
+    });
 
   }
 
@@ -36,24 +49,86 @@ export class SubCategoryComponent implements OnInit {
       }
    }
 
-   addNewItem() {
+   editList() {
+    // this.addEditCategoryItem = this.selectedCategory;
+    this.isEditEnabled = this.isEditEnabled === true ? false : true;
+    console.log('editList');
+  }
+
+  addNewItem() {
+    this.addEditSubCategoryItem = new Category('0', '', '', '');
     this.canAddEditItem = true;
     console.log('addNewItem');
   }
-  editList() {
-    this.addEditSubCategoryItem = this.selectedSubCategory;
-    this.isEditEnabled = this.isEditEnabled === true ? false : true;
-    console.log('edit Item' + this.addEditSubCategoryItem);
+
+  editItem(category) {
+    console.log('editItem category' + JSON.stringify(category));
+    this.addEditSubCategoryItem = category;
+    console.log('editItem ' + JSON.stringify(this.addEditSubCategoryItem));
   }
 
-  cancelAddEditItem() {
-    this.isEditEnabled = false;
-    this.canAddEditItem = false;
-  }
   saveItem() {
+    if (this.addEditSubCategoryItem.id === '0') {
+      this.addEditSubCategoryItem.parent = this.parentCategory.name;
+       console.log('SAVE AS NEW ' + JSON.stringify(this.addEditSubCategoryItem));
+      this.transactionService.createCategory(this.addEditSubCategoryItem).subscribe((response: any) => {
+        console.log('Categry Created' +   JSON.stringify(response));
+        this.subCategories.push(response);
+      });
+    } else {
+      console.log('UPDATE Item ' + JSON.stringify(this.addEditSubCategoryItem));
+      this.transactionService.updateCategoryById(this.addEditSubCategoryItem).subscribe((response: any) => {
+        console.log('Categry Updated' +   JSON.stringify(response));
+      });
+    }
     this.isEditEnabled = false;
     this.canAddEditItem = false;
     console.log('saveNewItem');
   }
+
+  deleteItem(e: Event, category) {
+
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    const index: number = this.subCategories.indexOf(category);
+      console.log('SAVE AS NEW ' + JSON.stringify(this.addEditSubCategoryItem));
+      this.transactionService.deleteCategoryById(category['_id']).subscribe((response: any) => {
+        console.log('Categry deleted' +   JSON.stringify(response));
+        // this.categories.splice(category);
+
+      if (index !== -1) {
+          this.subCategories.splice(index, 1);
+      }
+      });
+
+    this.isEditEnabled = false;
+    this.canAddEditItem = false;
+    console.log('saveNewItem');
+  }
+  cancelAddEditItem() {
+    this.isEditEnabled = false;
+    this.canAddEditItem = false;
+    console.log('cancelAddEditItem');
+  }
+
+  //  addNewItem() {
+  //   this.canAddEditItem = true;
+  //   console.log('addNewItem');
+  // }
+  // editList() {
+  //   this.addEditSubCategoryItem = this.selectedSubCategory;
+  //   this.isEditEnabled = this.isEditEnabled === true ? false : true;
+  //   console.log('edit Item' + this.addEditSubCategoryItem);
+  // }
+
+  // cancelAddEditItem() {
+  //   this.isEditEnabled = false;
+  //   this.canAddEditItem = false;
+  // }
+  // saveItem() {
+  //   this.isEditEnabled = false;
+  //   this.canAddEditItem = false;
+  //   console.log('saveNewItem');
+  // }
 
 }

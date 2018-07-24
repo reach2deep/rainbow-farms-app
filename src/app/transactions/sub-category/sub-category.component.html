@@ -1,6 +1,9 @@
+<mat-progress-spinner *ngIf="!subCategories" class="progress__spinner" [color]="'primary'" [mode]="'indeterminate'">
+</mat-progress-spinner>
 <mat-card *ngIf="(!canAddEditItem)">
     <mat-card-header>
         Sub Category
+        <div fxFlex></div>
         <button mat-button (click)="editList()">
         <mat-icon>edit</mat-icon>
       </button>
@@ -10,13 +13,18 @@
             <mat-list-item (click)="setSubCategorySelected(subcategory)" *ngFor="let subcategory of subCategories">
                 <mat-icon matListIcon>file</mat-icon>
                 <h3 class="name" matLine>{{subcategory.name}}</h3>
+                <button *ngIf="isEditEnabled" mat-button (click)="deleteItem($event,category)">
+                 <mat-icon>delete</mat-icon>
+                 </button>
             </mat-list-item>
         </mat-nav-list>
     </mat-card-content>
     <mat-card-actions *ngIf="isEditEnabled">
-        <mat-list-item (click)="addNewItem('')">
-            <mat-icon matListIcon>add</mat-icon>
-            <h3 class="name" matLine>Add new </h3>
+        <mat-list-item (click)="addNewItem()">
+            <button mat-button color="primary">
+                        <mat-icon>add</mat-icon>
+                        Add New
+                    </button>
         </mat-list-item>
     </mat-card-actions>
 
@@ -26,7 +34,10 @@
     <mat-card-header>
         <button mat-button (click)="cancelAddEditItem()">
                     <mat-icon>cancel</mat-icon>
-                  </button> Edit Sub Category
+                  </button>
+        <div fxFlex></div>
+        Edit Sub Category
+        <div fxFlex></div>
         <button mat-button (click)="saveItem()">
         <mat-icon>save</mat-icon>
       </button>
@@ -35,7 +46,6 @@
         <form>
             <mat-form-field>
                 <input name="editCat" type="text" matInput placeholder="Add new sub category" [(ngModel)]="addEditSubCategoryItem.name">
-                <!-- <mat-icon (click)="saveNewItem()" matSuffix>check</mat-icon> -->
             </mat-form-field>
 
         </form>

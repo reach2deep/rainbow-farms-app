@@ -21,6 +21,7 @@ import {TimingInterceptor} from './shared/interceptors/timing.interceptor';
 import {NgxExampleLibraryModule} from '@ismaestro/ngx-example-library';
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {environment} from '../environments/environment';
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 import 'hammerjs';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -56,7 +57,7 @@ import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
     }),
     CoreModule,
     AppRoutingModule,
-
+    AngularFontAwesomeModule
   ],
   declarations: [
     AppComponent,
