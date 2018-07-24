@@ -41,7 +41,7 @@ import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
     FormsModule,
     HttpClientModule,
     NgbModule.forRoot(),
-    SlimLoadingBarModule.forRoot(),
+    // SlimLoadingBarModule.forRoot(),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -50,18 +50,18 @@ import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
       }
     }),
     SharedModule.forRoot(),
-    NgxExampleLibraryModule.forRoot({
-      config: {
-        say: 'hello'
-      }
-    }),
+    // NgxExampleLibraryModule.forRoot({
+    //   config: {
+    //     say: 'hello'
+    //   }
+    // }),
     CoreModule,
-    AppRoutingModule,
-    AngularFontAwesomeModule
+     AppRoutingModule,
+    // AngularFontAwesomeModule
   ],
   declarations: [
     AppComponent,
-    HeroTopComponent,
+     HeroTopComponent,
 
   ],
   providers: [

@@ -13,7 +13,7 @@ import * as moment from 'moment';
 @Component({
   selector: 'app-transaction-detail',
   templateUrl: './transaction-detail.component.html',
-  styleUrls: ['./transaction-detail.component.css']
+  styleUrls: ['./transaction-detail.component.scss']
 })
 export class TransactionDetailComponent implements OnInit {
 
@@ -27,7 +27,7 @@ export class TransactionDetailComponent implements OnInit {
   newTransactionForm: FormGroup;
   error: string;
   @ViewChild('form') myNgForm; // just to call resetForm method
-
+  transactionType: string;
   filesToUpload: Array<File> = [];
 
   constructor(private dialog: MatDialog,
@@ -61,6 +61,15 @@ export class TransactionDetailComponent implements OnInit {
       console.log(JSON.stringify(this.transaction));
     });
   }
+
+
+  this.activatedRoute.queryParams.subscribe(params => {
+    // Defaults to 0 if no query param provided.
+    this.transactionType = params['transactionType'] || '';
+    this.transaction.transactionType =  this.transactionType;
+  });
+
+  this.transaction.transactionDate = moment().toDate();
   }
 
   createNewTransaction(newTransaction: Transaction) {
@@ -127,11 +136,10 @@ fileChangeEvent(event: any) {
 
     if (event.target.files && event.target.files[0]) {
       var reader = new FileReader();
-  
+
       reader.onload = (event: ProgressEvent) => {
         this.url = (<FileReader>event.target).result;
       }
-  
       reader.readAsDataURL(event.target.files[0]);
     }
 

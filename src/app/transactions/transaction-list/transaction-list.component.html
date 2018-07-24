@@ -5,9 +5,9 @@
 
 
 <ngc-float-button icon="add" class="fab-bottom-right">
-    <ngc-float-item-button icon="gps_fixed" content="Bill"></ngc-float-item-button>
-    <ngc-float-item-button icon="gps_fixed" content="Income"></ngc-float-item-button>
-    <ngc-float-item-button icon="mode_edit" content="Expense"></ngc-float-item-button>
+    <ngc-float-item-button icon="gps_fixed" content="Bill" (click)="createNewItem('Bill')"></ngc-float-item-button>
+    <ngc-float-item-button icon="gps_fixed" content="Income"  (click)="createNewItem('Income')"></ngc-float-item-button>
+    <ngc-float-item-button icon="mode_edit" content="Expense"  (click)="createNewItem('Expense')"></ngc-float-item-button>
 </ngc-float-button>
 
 <div class="container-fluid">

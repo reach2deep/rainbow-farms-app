@@ -10,13 +10,7 @@ const routes: Routes = [
   {path: '', redirectTo: '/', pathMatch: 'full'},
   {path: '', component: HeroTopComponent},
   {path: AppConfig.routes.heroes, loadChildren: './heroes/heroes.module#HeroesModule'},
- // {path:  AppConfig.routes.transactions, component: TransactionsComponent},
- // {path: AppConfig.routes.transactions, loadChildren: () => TransactionsComponent},
-  {
-    path: AppConfig.routes.transactions,
-    loadChildren: './transactions/transactions.module#TransactionsModule'
-
-  },
+  {path: AppConfig.routes.transactions, loadChildren : './transactions/transactions.module#TransactionsModule'},
   {path: AppConfig.routes.error404, component: Error404Component},
 
   // otherwise redirect to 404

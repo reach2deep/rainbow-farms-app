@@ -15,33 +15,8 @@ import { TransactionsComponent } from './transactions.component';
 const transactionsRoutes: Routes = [
 
   {path: '', component: TransactionListComponent},
-  // {path: 'new', component: TransactionDetailComponent},
-  {path : 'new', loadChildren : './transactions.module#TransactionDetailComponent'},
-  {path: 'cat', component: CategoryComponent},
-  {path: ':id', component: TransactionDetailComponent,
-  // children: [
-  //   {
-  //       path: 'category',
-  //       component: CategoryComponent
-  //   },
-  //   {
-  //       path: 'sub-category',
-  //       component: SubCategoryComponent
-     },
-// ]},
-  {path: 'category', component: CategoryComponent},
-  {path: 'sub-category', component: SubCategoryComponent},
-
-  // {
-  //    path: '',
-  //   component: TransactionListComponent,
-  //  children: [
-  //     {path: 'list', component: TransactionListComponent},
-  //     {path: ':id', component: TransactionDetailComponent},
-  //     {path: 'category', component: TransactionsComponent },
-  //     {path: 'sub-category', component: SubCategoryComponent}
-  //   ]
-  // }
+  {path: 'new', component: TransactionDetailComponent},
+  {path: ':id', component: TransactionDetailComponent}
 ];
 
 @NgModule({

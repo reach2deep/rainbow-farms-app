@@ -1,3 +1,4 @@
+<div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="10px">
 <mat-card *ngIf="!isCategoryVisible && !isPayeeVisible && !isNumPadVisible">
 
     <mat-card-title>
@@ -75,7 +76,7 @@
                                 <button mat-raised-button color="primary" (click)="fileInput.click()">Add Files</button>
                                 <input id="cin" name="cin" hidden type="file" #fileInput (change)="fileChangeEvent($event)">
                         </div>
-                        <img [src]="url" height="150" width="150">
+                       
                         <!-- <input type="file" ng2FileSelect [uploader]="uploader"> -->
                     <!-- <div>
                         <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image"/>
@@ -117,9 +118,87 @@
 
         <!-- <pre>{{transaction | json}}</pre>
         <pre>{{ newTransactionForm.value | json }}</pre> -->
+        <!-- <pre>{{transaction | json}}</pre> -->
     </mat-card-content>
 </mat-card>
+
+        <img [src]="url" height="150" width="150">
+
+
 
 <app-category *ngIf="isCategoryVisible && !isPayeeVisible" (selectedCategoryChange)="onCategorySelected($event)"></app-category>
 <app-payee *ngIf="isPayeeVisible" (selectedPayeeChange)="onPayeeSelected($event)"></app-payee>
 <app-number-view *ngIf="isNumPadVisible"></app-number-view>
+</div>
+<form [formGroup]="newTransactionForm" #form="ngForm" >
+<div fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start stretch" [fxLayoutGap]="gap">
+       
+<mat-card class="basic-forms" fxFlex="grow" [fxFlex.gt-sm]="col2">
+        <mat-card-header>
+            Title          
+        </mat-card-header>
+        <mat-card-content fxLayout="column">        
+          <div class="result" fxLayout="column">
+            <div fxLayout.gt-sm="row" fxLayoutGap.gt-sm="16px">
+                    <mat-form-field fxFlex>
+                            <mat-select placeholder="Select Transaction" [(value)]="selected" formControlName="transactionType" [(ngModel)]="transaction.transactionType">
+                                    <mat-option value="Expense">Expense</mat-option>
+                                    <mat-option value="Income">Income</mat-option>
+                                    <mat-option value="Bill">Bill</mat-option>
+                                </mat-select>
+                    </mat-form-field>
+                    <mat-form-field fxFlex>
+                            <input matInput [matDatepicker]="picker" placeholder="Date" formControlName="transactionDate" [(ngModel)]="transaction.transactionDate">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker touchUi="true" #picker></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+            <div fxLayout.gt-sm="row" fxLayoutGap.gt-sm="16px">
+              <mat-form-field fxFlex>
+                    <input matInput placeholder="Category/Sub Category" (focus)="toggleCategoryView()" (focusout)="toggleCategoryView()" formControlName="category" [(ngModel)]="transaction.category">
+              </mat-form-field>
+              <mat-form-field fxFlex>
+                    <mat-select placeholder="Account" [(value)]="selected" formControlName="account" [(ngModel)]="transaction.account">
+                            <mat-option value="Main Account">Main Account</mat-option>
+                            <mat-option value="Expense Account">Expense Account</mat-option>
+                            <mat-option value="Sales Account">Sales Account</mat-option>
+                        </mat-select>
+              </mat-form-field>
+            </div>
+            <div fxLayout.gt-sm="row" fxLayoutGap.gt-sm="16px">
+                    <mat-form-field fxFlex>
+                            <input matInput placeholder="Payee" (focus)="togglePayeeView()" (focusout)="togglePayeeView()" formControlName="payee" [(ngModel)]="transaction.payee">
+                    </mat-form-field>
+                    <mat-form-field fxFlex>
+                            <input matInput placeholder="Amount" (focus)="toggleNumberView()" (focusout)="toggleNumberView()" formControlName="amount" [(ngModel)]="transaction.amount">
+                    </mat-form-field>
+                  </div>
+            
+            <mat-form-field>
+             <textarea matInput placeholder="Notes" formControlName="notes" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="5" [(ngModel)]="transaction.notes"></textarea>
+            </mat-form-field>   
+            <div class="actions" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="8px">
+                    <button mat-button type="button"
+                            color="primary">CLEAR
+                    </button>
+                    <button mat-raised-button  color="primary" (click)="createNewTransaction(newTransactionForm.value)" [disabled]="!newTransactionForm.valid">SAVE</button>
+                  </div>       
+          </div>
+        </mat-card-content>
+      </mat-card>
+      <mat-card class="basic-forms" fxFlex="grow" [fxFlex.gt-sm]="col2">
+          
+            <mat-card-content fxLayout="column">
+                    <div class="container">
+                            <button mat-raised-button color="primary" (click)="fileInput.click()">Select receipt</button>
+                            <input id="cin" name="cin" hidden type="file" #fileInput (change)="fileChangeEvent($event)">
+                    </div>
+              <div class="result" fxLayout="column">
+                    <img [src]="url" height="150" width="150">
+              </div>
+            </mat-card-content>
+          </mat-card>
+         
+
+</div>
+</form>
