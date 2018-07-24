@@ -1,56 +1,57 @@
-
- <mat-progress-spinner *ngIf="!categories"
- class="progress__spinner"
- [color]="'primary'"
- [mode]="'indeterminate'">
+<mat-progress-spinner *ngIf="!categories" class="progress__spinner" [color]="'primary'" [mode]="'indeterminate'">
 </mat-progress-spinner>
 
-<mat-card *ngIf="(!canSelectSubCategory && !canAddEditItem)" >
-  <mat-card-header>
-    Category
-    <button mat-button (click)="editList()">
+<mat-card *ngIf="(!canSelectSubCategory && !canAddEditItem)">
+    <mat-card-header>
+        Category
+        <div fxFlex></div>
+        <button mat-button (click)="editList()">
       <mat-icon>edit</mat-icon>
     </button>
-  </mat-card-header>
-  <mat-card-content>
-    <mat-nav-list>
-      <mat-list-item (click)="setCategorySelected(category)" *ngFor="let category of categories">
-        <mat-icon matListIcon>folder</mat-icon>
-        <h3 class="name" matLine>{{category.name}}</h3>
-        <button *ngIf="isEditEnabled" mat-button (click)="deleteItem(category)">
+    </mat-card-header>
+    <mat-card-content>
+        <mat-nav-list>
+            <mat-list-item (click)="setCategorySelected(category)" *ngFor="let category of categories">
+                <mat-icon matListIcon>folder</mat-icon>
+                <h3 class="name" matLine>{{category.name}}</h3>
+                <button *ngIf="isEditEnabled" mat-button (click)="deleteItem($event,category)">
+                    
             <mat-icon>delete</mat-icon>
-          </button>
-      </mat-list-item>
-    </mat-nav-list>
-  </mat-card-content>
-  <mat-card-actions *ngIf="isEditEnabled">
+        </button>
+            </mat-list-item>
+        </mat-nav-list>
+    </mat-card-content>
+    <mat-card-actions *ngIf="isEditEnabled">
         <mat-list-item (click)="addNewItem()">
-                <mat-icon matListIcon>add</mat-icon>
-                <h3 class="name" matLine>Add new </h3>
-              </mat-list-item>    
-  </mat-card-actions>
+            <button mat-button color="primary">
+                <mat-icon>add</mat-icon>
+                Add New
+            </button>
+
+            <!-- <mat-icon matListIcon>add</mat-icon>
+            <div fxFlex></div>
+            <button mat-button color="primary"></button> -->
+        </mat-list-item>
+    </mat-card-actions>
 </mat-card>
 
 <mat-card *ngIf="canAddEditItem">
-        <mat-card-header>
-                <button mat-button (click)="cancelAddEditItem()">
+    <mat-card-header>
+        <button mat-button (click)="cancelAddEditItem()">
                         <mat-icon>cancel</mat-icon>
-                      </button>
-          Edit Category
-          <button mat-button (click)="saveItem()">
+                      </button> Edit Category
+        <button mat-button (click)="saveItem()">
             <mat-icon>save</mat-icon>
           </button>
-        </mat-card-header>
-        <mat-card-content>
-                <form>
-                        <mat-form-field>
-                          <input name="editCat" type="text" matInput placeholder="Add new category" [(ngModel)]="addEditCategoryItem.name">
-                          <!-- <mat-icon (click)="saveNewItem()" matSuffix>check</mat-icon> -->
-                        </mat-form-field>
-                       
-                      </form>
-        </mat-card-content>        
-      </mat-card>
+    </mat-card-header>
+    <mat-card-content>
+        <form>
+            <mat-form-field>
+                <input name="editCat" type="text" matInput placeholder="Add new category" [(ngModel)]="addEditCategoryItem.name">
+            </mat-form-field>
+        </form>
+    </mat-card-content>
+</mat-card>
 
 <app-sub-category *ngIf="canSelectSubCategory" (selectedSubcategory)="setSelectedSubCategory($event)"></app-sub-category>
 

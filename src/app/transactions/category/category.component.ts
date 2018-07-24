@@ -18,7 +18,7 @@ export class CategoryComponent implements OnInit {
 
   @Output() selectedCategoryChange = new EventEmitter < string > ();
 
-  categories: Category[] ; // = ['Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers']; 
+  categories: Category[] ; // = ['Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers'];
   canSelectSubCategory = false;
   canAddEditItem = false;
   isEditEnabled = false;
@@ -47,7 +47,7 @@ export class CategoryComponent implements OnInit {
     console.log('Selected category ' + JSON.stringify(category));
     if (!this.isEditEnabled) {
       this.selectedCategory = category;
-    this.canSelectSubCategory = true;
+      this.canSelectSubCategory = true;
     } else {
       this.isEditEnabled = true;
       this.canAddEditItem = true;
@@ -96,14 +96,21 @@ export class CategoryComponent implements OnInit {
     console.log('saveNewItem');
   }
 
-  deleteItem(category) {
-  
+  deleteItem(e: Event, category) {
+
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    const index: number = this.categories.indexOf(category);
       console.log('SAVE AS NEW ' + JSON.stringify(this.addEditCategoryItem));
       this.transactionService.deleteCategoryById(category['_id']).subscribe((response: any) => {
         console.log('Categry deleted' +   JSON.stringify(response));
-        this.categories.push(response);
+        // this.categories.splice(category);
+
+      if (index !== -1) {
+          this.categories.splice(index, 1);
+      }
       });
-  
+
     this.isEditEnabled = false;
     this.canAddEditItem = false;
     console.log('saveNewItem');
