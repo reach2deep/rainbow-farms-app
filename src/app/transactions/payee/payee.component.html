@@ -1,6 +1,9 @@
+<mat-progress-spinner *ngIf="!payees" class="progress__spinner" [color]="'primary'" [mode]="'indeterminate'">
+  </mat-progress-spinner>
 <mat-card *ngIf="(!canAddEditItem)">
         <mat-card-header>
           Payee
+          <div fxFlex></div>
           <button mat-button (click)="editList()">
             <mat-icon>edit</mat-icon>
           </button>
@@ -9,14 +12,20 @@
 <mat-nav-list >
     <mat-list-item (click)="setSelectedPayee(payee)" *ngFor="let payee of payees">
         <mat-icon matListIcon>folder</mat-icon>
-      <h3 class="name" matLine>{{payee.name}}</h3>      
+      <h3 class="name" matLine>{{payee.name}}</h3>    
+      <button *ngIf="isEditEnabled" mat-button (click)="deleteItem($event,payee)">
+                    
+          <mat-icon>delete</mat-icon>
+      </button>  
     </mat-list-item>
 </mat-nav-list>
 </mat-card-content>
 <mat-card-actions *ngIf="isEditEnabled">
-    <mat-list-item (click)="addNewItem('')">
-            <mat-icon matListIcon>add</mat-icon>
-            <h3 class="name" matLine>Add new </h3>
+    <mat-list-item (click)="addNewItem()">
+        <button mat-button color="primary">
+            <mat-icon>add</mat-icon>
+            Add New
+        </button>
           </mat-list-item>    
 </mat-card-actions>
 
@@ -27,7 +36,9 @@
                 <button mat-button (click)="cancelAddEditItem()">
                         <mat-icon>cancel</mat-icon>
                       </button>
+                      <div fxFlex></div>
           Edit Payee
+          <div fxFlex></div>
           <button mat-button (click)="saveItem()">
             <mat-icon>save</mat-icon>
           </button>
@@ -35,7 +46,7 @@
         <mat-card-content>
                 <form>
                         <mat-form-field>
-                          <input name="editCat" type="text" matInput placeholder="Add new payee" [(ngModel)]="addEditPayeeItem">
+                          <input name="editCat" type="text" matInput placeholder="Add new payee" [(ngModel)]="addEditPayeeItem.name">
                           <!-- <mat-icon (click)="saveNewItem()" matSuffix>check</mat-icon> -->
                         </mat-form-field>
                        

@@ -37,25 +37,25 @@ constructor(private transactionService: TransactionService,
     });
   }
 
-  // createNewItem(item) {
-  //   console.log('createNewItem ' + item);
-  //   if (item) {
-  //     console.log('routing');
-  //     this.router.navigate([AppConfig.routes.transactions + '/new'], { queryParams: { transactionType: item } });
-  //   }
-  // }
-
-  createNewItem(item): void {
-    const dialogRef = this.dialog.open(TransactionDetailComponent, {
-     // width: '250px',
-      data: {transactionType: item}
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      this.animal = result;
-    });
+  createNewItem(item) {
+    console.log('createNewItem ' + item);
+    if (item) {
+      console.log('routing');
+      this.router.navigate([AppConfig.routes.transactions + '/new'], { queryParams: { transactionType: item } });
+    }
   }
+
+  // createNewItem(item): void {
+  //   const dialogRef = this.dialog.open(TransactionDetailComponent, {
+  //    // width: '250px',
+  //     data: {transactionType: item}
+  //   });
+
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     console.log('The dialog was closed');
+  //     this.animal = result;
+  //   });
+  // }
 
   // setPage(pageInfo) {
   //   this.page.pageNumber = pageInfo.offset;

@@ -1,13 +1,14 @@
 import { MasterDataProvider } from './../shared/master-data-provider';
-
+import { MAT_DIALOG_DATA } from '@angular/material';
 import { TransactionService } from '../shared/transaction.service';
 import { AppConfig } from '../../config/app.config';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
-import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter, Inject, ElementRef, AfterViewInit, HostListener } from '@angular/core';
 import { Transaction } from '../shared/transaction.model';
 import * as moment from 'moment';
+import {Location} from '@angular/common';
 
 
 @Component({
@@ -27,6 +28,7 @@ export class TransactionDetailComponent implements OnInit {
   newTransactionForm: FormGroup;
   error: string;
   @ViewChild('form') myNgForm; // just to call resetForm method
+
   transactionType: string;
   filesToUpload: Array<File> = [];
 
@@ -35,8 +37,11 @@ export class TransactionDetailComponent implements OnInit {
     private formBuilder: FormBuilder,
     private transactionService: TransactionService,
     private masterdataService: MasterDataProvider,
-   // private location: Location,
-    private activatedRoute: ActivatedRoute) {
+   
+    private activatedRoute: ActivatedRoute,
+    private location: Location,
+  //  @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
 
     this.transaction = new Transaction();
       this.newTransactionForm = this.formBuilder.group({
@@ -54,7 +59,6 @@ export class TransactionDetailComponent implements OnInit {
   ngOnInit() {
 
     const transactionId = this.activatedRoute.snapshot.paramMap.get('id');
-
     if (transactionId) {
     this.transactionService.getTransactionById(transactionId).subscribe((transaction: Transaction) => {
       this.transaction = transaction;
@@ -74,19 +78,37 @@ export class TransactionDetailComponent implements OnInit {
 
   createNewTransaction(newTransaction: Transaction) {
 
+  //  console.log(JSON.stringify(newTransaction));
      const transDateTime = new Date(moment(this.transaction.transactionDate).format('YYYY-MM-DD ')
                                         + moment().format('HH:mm'));
      newTransaction.transactionDate = transDateTime;
 
+     if (this.filesToUpload.length > 0 ) {
+       console.log('filesToUpload');
+       console.log(JSON.stringify(newTransaction));
      this.transactionService.uploadImage(this.filesToUpload).subscribe((uploadedImage: string) => {
-      this.transaction.attachments.uniqueName = uploadedImage;
-      this.transaction.attachments.name = 'this.filesToUpload.file';
-      console.log(JSON.stringify(this.transaction));
+      newTransaction.attachments = {name :  this.filesToUpload[0].name, uniqueName : uploadedImage };
+      console.log('transaction ' + JSON.stringify(this.transaction));
+      console.log('newTransaction ' + JSON.stringify(newTransaction));
+      this.saveTransaction(newTransaction);
     });
+  } else {
+    newTransaction.attachments = {name : '', uniqueName : ''};
 
-      this.transactionService.createTransaction(newTransaction).subscribe((newTransactionWithId) => {
+    console.log('transaction ' + JSON.stringify(this.transaction));
+    console.log('newTransaction ' + JSON.stringify(newTransaction));
+
+     this.saveTransaction(newTransaction);
+  }
+  }
+
+  saveTransaction(transaction) {
+    this.transactionService.createTransaction(transaction).subscribe((newTransactionWithId) => {
       this.transactionDetailSaved.emit(newTransactionWithId);
       this.myNgForm.resetForm();
+      this.url = '';
+      this.filesToUpload = [];
+      this.location.back();
     }, (response: Response) => {
       if (response.status === 500) {
         this.error = 'errorHasOcurred';
@@ -103,8 +125,12 @@ export class TransactionDetailComponent implements OnInit {
   }
 
   toggleNumberView() {
-  //  this.isNumPadVisible = this.isNumPadVisible === true ? false : true;
+    this.isNumPadVisible = this.isNumPadVisible === true ? false : true;
   }
+
+  close() {
+    this.location.back();
+    }
 
   onCategorySelected(category) {
     console.log('category ' + category);
@@ -116,6 +142,12 @@ export class TransactionDetailComponent implements OnInit {
     console.log('payee ' + payee);
     this.transaction.payee = payee;
     this.togglePayeeView();
+  }
+
+  onAmountSelected(selectedNumber) {
+    console.log('selectedNumber ' + selectedNumber);
+    this.transaction.amount = selectedNumber;
+    this.toggleNumberView();
   }
 
   upload() {
@@ -135,14 +167,17 @@ fileChangeEvent(event: any) {
     this.filesToUpload = <Array<File>>event.target.files;
 
     if (event.target.files && event.target.files[0]) {
-      var reader = new FileReader();
+      const reader = new FileReader();
 
       reader.onload = (event: ProgressEvent) => {
         this.url = (<FileReader>event.target).result;
+        console.log('this.url '+ this.url );
       }
       reader.readAsDataURL(event.target.files[0]);
     }
 
     }
+
+
 }
 

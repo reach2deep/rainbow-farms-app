@@ -21,7 +21,9 @@ import { SubCategoryComponent } from './sub-category/sub-category.component';
 import { PayeeComponent } from './payee/payee.component';
 import { NumberViewComponent } from './number-view/number-view.component';
 import {NgcFloatButtonModule} from 'ngc-float-button';
-
+import { NumericInput } from 'numeric-keyboard';
+// import { ImageViewerModule } from 'ngx-image-viewer';
+import { ImageViewerModule } from '@hallysonh/ngx-imageviewer';
 // import {HeroListComponent, RemoveHeroDialogComponent} from './hero-list/hero-list.component';
 // import {HeroService} from './shared/hero.service';
 // import {HeroDetailComponent} from './hero-detail/hero-detail.component';
@@ -40,7 +42,10 @@ import {NgcFloatButtonModule} from 'ngc-float-button';
     HttpClientModule,
   SlimLoadingBarModule.forRoot(),
   NgcFloatButtonModule,
-  AngularFontAwesomeModule
+  AngularFontAwesomeModule,
+  // ImageViewerModule.forRoot()
+  ImageViewerModule
+
   ],
   declarations: [
     TransactionsComponent,
@@ -50,7 +55,7 @@ import {NgcFloatButtonModule} from 'ngc-float-button';
     SubCategoryComponent,
     PayeeComponent,
     FileUploadComponent,
-    NumberViewComponent,
+    NumberViewComponent
     //
     // HeroListComponent,
     // RemoveHeroDialogComponent,
@@ -78,3 +83,5 @@ export class TransactionsModule {
 
   }
 }
+
+ImageViewerModule

@@ -1,3 +1,4 @@
+import { TransactionService } from './../shared/transaction.service';
 import { Payee } from './../shared/transaction.model';
 import { MasterDataProvider } from './../shared/master-data-provider';
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
@@ -16,13 +17,21 @@ export class PayeeComponent implements OnInit {
   selectedPayee: Payee;
   canAddEditItem = false;
   isEditEnabled = false;
-  addEditPayeeItem: string;
+  addEditPayeeItem: Payee;
 
-  constructor(private masterdataService: MasterDataProvider) {}
+  constructor(private masterdataService: MasterDataProvider,
+    private transactionService: TransactionService) {}
 
   ngOnInit() {
   //  console.log('categoryList ' + JSON.stringify(this.masterdataService.getCategories()));
-    this.payees = this.masterdataService.getPayees();
+    // this.payees = this.masterdataService.getPayees();
+
+    this.transactionService.getAllMasters().subscribe((masters: any) => {
+      // this.payeeList = masters['payees'];
+      this.payees = masters['payees'];
+    //  this.subCategories = _.filter(this.subCategories, { 'parent': this.parentCategory.name});
+      console.log('Masters Loaded ' +   JSON.stringify(masters));
+    });
 
   }
 
@@ -37,25 +46,65 @@ export class PayeeComponent implements OnInit {
     }
    }
 
+   editList() {
+    // this.addEditCategoryItem = this.selectedCategory;
+    this.isEditEnabled = this.isEditEnabled === true ? false : true;
+    console.log('editList');
+  }
 
-   addNewItem() {
+  addNewItem() {
+    this.addEditPayeeItem = new Payee('0', '', '', '', '');
     this.canAddEditItem = true;
     console.log('addNewItem');
   }
-  editList() {
-    this.addEditPayeeItem = this.addEditPayeeItem;
-    this.isEditEnabled = this.isEditEnabled === true ? false : true;
-    console.log('edit Item' + this.addEditPayeeItem);
+
+  editItem(category) {
+    console.log('editItem category' + JSON.stringify(category));
+    this.addEditPayeeItem = category;
+    console.log('editItem ' + JSON.stringify(this.addEditPayeeItem));
   }
 
-  cancelAddEditItem() {
-    this.isEditEnabled = false;
-    this.canAddEditItem = false;
-  }
   saveItem() {
+    if (this.addEditPayeeItem.id === '0') {
+       console.log('SAVE AS NEW ' + JSON.stringify(this.addEditPayeeItem));
+      this.transactionService.createPayee(this.addEditPayeeItem).subscribe((response: any) => {
+        console.log('Categry Created' +   JSON.stringify(response));
+        this.payees.push(response);
+      });
+    } else {
+      console.log('UPDATE Item ' + JSON.stringify(this.addEditPayeeItem));
+      this.transactionService.updatePayeeById(this.addEditPayeeItem).subscribe((response: any) => {
+        console.log('Categry Updated' +   JSON.stringify(response));
+      });
+    }
     this.isEditEnabled = false;
     this.canAddEditItem = false;
     console.log('saveNewItem');
+  }
+
+  deleteItem(e: Event, category) {
+
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    const index: number = this.payees.indexOf(category);
+      console.log('SAVE AS NEW ' + JSON.stringify(this.addEditPayeeItem));
+      this.transactionService.deletePayeeById(category['_id']).subscribe((response: any) => {
+        console.log('Categry deleted' +   JSON.stringify(response));
+        // this.categories.splice(category);
+
+      if (index !== -1) {
+          this.payees.splice(index, 1);
+      }
+      });
+
+    this.isEditEnabled = false;
+    this.canAddEditItem = false;
+    console.log('saveNewItem');
+  }
+  cancelAddEditItem() {
+    this.isEditEnabled = false;
+    this.canAddEditItem = false;
+    console.log('cancelAddEditItem');
   }
 
 }

@@ -10,7 +10,7 @@ import {catchError, tap} from 'rxjs/operators';
 import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
 import {LoggerService} from '../../core/shared/logger.service';
-import { Transaction, Category } from './transaction.model';
+import { Transaction, Category, Payee } from './transaction.model';
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -89,6 +89,7 @@ export class TransactionService {
       account: transaction.account,
       payee: transaction.payee,
       amount: transaction.amount,
+      attachments: transaction.attachments,
       notes: transaction.notes,
       createdAt: transaction.createdAt,
       createdBy: transaction.createdBy
@@ -153,6 +154,49 @@ export class TransactionService {
     return this.http.delete<Category>(url, httpOptions).pipe(
       tap(() => LoggerService.log(`deleted Category id=${id}`)),
       catchError(this.handleError<Category>('deleteCategory'))
+    );
+  }
+
+
+  createPayee(newPayee: Payee): Observable<Payee> {
+    return this.http.post<Payee>(AppConfig.endpoints.payee, JSON.stringify({
+            name: newPayee.name,
+            address: newPayee.address,
+            mobile: newPayee.mobile,
+            notes: newPayee.notes
+    }), httpOptions).pipe(
+      tap((PayeeSaved: Payee) => {
+        LoggerService.log(`added Category w/ id=${PayeeSaved.id}`);
+        this.showSnackBar('Paye Created');
+      }),
+      catchError(this.handleError<Payee>('createPayee'))
+    );
+  }
+
+  updatePayeeById(updatePayee: Payee): Observable<Payee> {
+    console.log('updateCategoryById' +   JSON.stringify(updatePayee['_id']));
+    const url = `${AppConfig.endpoints.payee}/${updatePayee['_id']}`;
+
+    return this.http.put<Payee>(url, JSON.stringify({
+            name: updatePayee.name,
+            address: updatePayee.address,
+            mobile: updatePayee.mobile,
+            notes: updatePayee.notes
+        }), httpOptions).pipe(
+        tap((PayeeSaved: Payee) => {
+          LoggerService.log(`updated Payee w/ id=${PayeeSaved}`);
+          this.showSnackBar('Payee update');
+        }),
+        catchError(this.handleError<Payee>('updatePayeeById'))
+        );
+  }
+
+  deletePayeeById(id: any): Observable<Payee> {
+    const url = `${AppConfig.endpoints.payee}/${id}`;
+
+    return this.http.delete<Payee>(url, httpOptions).pipe(
+      tap(() => LoggerService.log(`deleted Payee id=${id}`)),
+      catchError(this.handleError<Payee>('deletePayeeById'))
     );
   }
 

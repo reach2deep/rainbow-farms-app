@@ -1,17 +1,31 @@
-@import "mixins";
+/* important stuff for this example */
 
-#left {
-  width: 50%;
-  float: left;
-  margin-left: 6%;
+
+.row {
+  display:flex;
+}
+.div1 {
+  //flex: 1 1 auto;
+  width: 550px;
+  
 }
 
-#right {
-  margin-left: 50%;
-  text-align: center;
-  padding-right: 17%;
+.div2 {
+  flex: 0 0 auto;   
 }
 
-.clear {
-  clear: both;
+
+
+/* other stuff */
+// div {
+//   // padding:1em;
+//   // margin:0.2em;
+//  // background-color: rgba(0,0,0,0.125)
+// }
+.row {
+  width:100%;
+  padding:1em;
+  overflow:hidden;
+  
 }
+

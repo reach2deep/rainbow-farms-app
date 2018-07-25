@@ -7,6 +7,7 @@ import { TransactionListComponent } from './transaction-list/transaction-list.co
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import { TransactionsComponent } from './transactions.component';
+import { NumberViewComponent } from './number-view/number-view.component';
 
 // import {HeroListComponent} from './hero-list/hero-list.component';
 // import {HeroDetailComponent} from './hero-detail/hero-detail.component';

@@ -1,13 +1,9 @@
-<!-- <button mat-fab class="fab-bottom-right">Basic</button> -->
-
-<i class="fa fa-trash"></i>
-<i class="add"></i>
 
 
 <ngc-float-button icon="add" class="fab-bottom-right">
-    <ngc-float-item-button icon="gps_fixed" content="Bill" (click)="createNewItem('Bill')"></ngc-float-item-button>
-    <ngc-float-item-button icon="gps_fixed" content="Income"  (click)="createNewItem('Income')"></ngc-float-item-button>
-    <ngc-float-item-button icon="mode_edit" content="Expense"  (click)="createNewItem('Expense')"></ngc-float-item-button>
+        <ngc-float-item-button icon="mode_edit" content="Expense"  (click)="createNewItem('Expense')"></ngc-float-item-button>
+        <ngc-float-item-button icon="gps_fixed" content="Income"  (click)="createNewItem('Income')"></ngc-float-item-button>
+        <ngc-float-item-button icon="gps_fixed" content="Bill" (click)="createNewItem('Bill')"></ngc-float-item-button>
 </ngc-float-button>
 
 <div class="container-fluid">
@@ -16,12 +12,12 @@
         <ngx-datatable-column name="Type" prop="transactionType"></ngx-datatable-column>
         <ngx-datatable-column name="Date" prop="transactionDate"></ngx-datatable-column>
         <ngx-datatable-column name="Category" prop="category"></ngx-datatable-column>
-        <ngx-datatable-column name="Sub Category" prop="subCatergoty"></ngx-datatable-column>
+        <!-- <ngx-datatable-column name="Sub Category" prop="subCatergoty"></ngx-datatable-column> -->
         <ngx-datatable-column name="Amount" prop="amount"></ngx-datatable-column>
         <ngx-datatable-column name="Action" prop="_id" [sortable]="false">
             <ng-template let-rowIndex="rowIndex" let-id="value" ngx-datatable-cell-template>
-                <button class="btn btn-sm btn-danger" (click)="viewDetail(id)">
-               <i class="fa fa-trash"></i> VIEW
+                <button mat-flat-button color="accent" (click)="viewDetail(id)">
+               <i class="fa fa-edit"></i> 
              </button>
             </ng-template>
         </ngx-datatable-column>

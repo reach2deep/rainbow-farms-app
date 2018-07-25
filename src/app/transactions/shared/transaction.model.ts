@@ -77,8 +77,22 @@ export class Category {
 export class Payee {
   public id: string;
   public name: string;
-  public address: Date;
+  public address: string;
   public mobile: string;
   public notes: string;
   public createdAt: string;
+
+  constructor(id: string,
+    name: string,
+    address: string,
+    mobile: string,
+    notes: string
+  ) {
+    this.id = id;
+    this.name = name;
+    this.address = address;
+    this.mobile = mobile;
+    this.notes = notes;
+  }
+
 }
