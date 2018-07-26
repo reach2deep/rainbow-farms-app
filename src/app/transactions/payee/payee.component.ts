@@ -26,12 +26,15 @@ export class PayeeComponent implements OnInit {
   //  console.log('categoryList ' + JSON.stringify(this.masterdataService.getCategories()));
     // this.payees = this.masterdataService.getPayees();
 
-    this.transactionService.getAllMasters().subscribe((masters: any) => {
-      // this.payeeList = masters['payees'];
-      this.payees = masters['payees'];
-    //  this.subCategories = _.filter(this.subCategories, { 'parent': this.parentCategory.name});
-      console.log('Masters Loaded ' +   JSON.stringify(masters));
-    });
+    // this.transactionService.getAllMasters().subscribe((masters: any) => {
+    //   // this.payeeList = masters['payees'];
+    //   this.payees = masters['payees'];
+    // //  this.subCategories = _.filter(this.subCategories, { 'parent': this.parentCategory.name});
+    //   console.log('Masters Loaded ' +   JSON.stringify(masters));
+    // });
+
+    this.payees = this.masterdataService.getPayees();
+    console.log('masterdataService payees ' + JSON.stringify(this.payees));
 
   }
 

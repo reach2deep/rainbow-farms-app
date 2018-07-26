@@ -57,7 +57,7 @@ export class TransactionService {
        formData.append('uploads[]', files[i], files[i]['name']);
     }
 
-    return this.http.post(AppConfig.endpoints.fileupload, formData)
+    return this.http.post(AppConfig.endpoints.fileupload, formData, {responseType: 'text'} )
         .pipe(
           tap(response => LoggerService.log('updated')),
           catchError(this.handleError('uploadImage', []))
@@ -89,7 +89,7 @@ export class TransactionService {
       account: transaction.account,
       payee: transaction.payee,
       amount: transaction.amount,
-      attachments: transaction.attachments,
+      receipts: transaction.receipts,
       notes: transaction.notes,
       createdAt: transaction.createdAt,
       createdBy: transaction.createdBy

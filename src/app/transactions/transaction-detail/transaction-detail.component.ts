@@ -62,6 +62,9 @@ export class TransactionDetailComponent implements OnInit {
     if (transactionId) {
     this.transactionService.getTransactionById(transactionId).subscribe((transaction: Transaction) => {
       this.transaction = transaction;
+      console.log(this.transaction);
+      this.url = 'http://localhost:3000/' + this.transaction.receipts.uniqueName;
+      console.log(this.url);
       console.log(JSON.stringify(this.transaction));
     });
   }
@@ -87,13 +90,13 @@ export class TransactionDetailComponent implements OnInit {
        console.log('filesToUpload');
        console.log(JSON.stringify(newTransaction));
      this.transactionService.uploadImage(this.filesToUpload).subscribe((uploadedImage: string) => {
-      newTransaction.attachments = {name :  this.filesToUpload[0].name, uniqueName : uploadedImage };
+      newTransaction.receipts = {name :  this.filesToUpload[0].name, uniqueName : uploadedImage };
       console.log('transaction ' + JSON.stringify(this.transaction));
       console.log('newTransaction ' + JSON.stringify(newTransaction));
       this.saveTransaction(newTransaction);
     });
   } else {
-    newTransaction.attachments = {name : '', uniqueName : ''};
+    newTransaction.receipts = {name : '', uniqueName : ''};
 
     console.log('transaction ' + JSON.stringify(this.transaction));
     console.log('newTransaction ' + JSON.stringify(newTransaction));

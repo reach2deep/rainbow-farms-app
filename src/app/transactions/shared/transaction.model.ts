@@ -8,7 +8,7 @@ export class Transaction {
   public payee: string;
   public amount: Number;
   public notes: string;
-  public attachments: {
+  public receipts: {
     name: string,
     uniqueName: string
   };

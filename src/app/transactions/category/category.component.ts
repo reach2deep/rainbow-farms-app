@@ -33,16 +33,16 @@ export class CategoryComponent implements OnInit {
 
   ngOnInit() {
 
-    this.transactionService.getAllMasters().subscribe((masters: any) => {
-      // this.payeeList = masters['payees'];
-      this.categories = masters['categories'];
-      this.categories = _.filter(this.categories, { 'parent': ''});
-      console.log('Masters Loaded ' +   JSON.stringify(this.categories));
-    });
+    // this.transactionService.getAllMasters().subscribe((masters: any) => {
+    //   // this.payeeList = masters['payees'];
+    //   this.categories = masters['categories'];
+    //   this.categories = _.filter(this.categories, { 'parent': ''});
+    //   console.log('Masters Loaded ' +   JSON.stringify(this.categories));
+    // });
 
-    // console.log('categoryList ' + JSON.stringify(this.masterdataService.getCategories()));
-    // this.categories = this.masterdataService.getCategories();
 
+    this.categories = this.masterdataService.getCategories();
+    console.log('masterdataService categoryList ' + JSON.stringify(this.categories));
   }
 
   setCategorySelected(category) {
@@ -86,13 +86,16 @@ export class CategoryComponent implements OnInit {
       this.transactionService.createCategory(this.addEditCategoryItem).subscribe((response: any) => {
         console.log('Categry Created' +   JSON.stringify(response));
         this.categories.push(response);
+        this.masterdataService.loadMasters();
       });
     } else {
       console.log('UPDATE Item ' + JSON.stringify(this.addEditCategoryItem));
       this.transactionService.updateCategoryById(this.addEditCategoryItem).subscribe((response: any) => {
         console.log('Categry Updated' +   JSON.stringify(response));
+        this.masterdataService.loadMasters();
       });
     }
+    
     this.isEditEnabled = false;
     this.canAddEditItem = false;
     console.log('saveNewItem');

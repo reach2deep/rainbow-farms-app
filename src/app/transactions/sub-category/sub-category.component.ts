@@ -26,16 +26,20 @@ export class SubCategoryComponent implements OnInit {
     private transactionService: TransactionService) {}
 
   ngOnInit() {
-    console.log('parentCategory ' +  JSON.stringify(this.parentCategory));
-    // console.log('subCategories List ' + JSON.stringify(this.masterdataService.getCategories()));
-    // this.subCategories = this.masterdataService.getCategories();
+    // console.log('parentCategory ' +  JSON.stringify(this.parentCategory));
+    // // console.log('subCategories List ' + JSON.stringify(this.masterdataService.getCategories()));
+    // // this.subCategories = this.masterdataService.getCategories();
 
-    this.transactionService.getAllMasters().subscribe((masters: any) => {
-      // this.payeeList = masters['payees'];
-      this.subCategories = masters['categories'];
-      this.subCategories = _.filter(this.subCategories, { 'parent': this.parentCategory.name});
-      console.log('Masters Loaded ' +   JSON.stringify(masters));
-    });
+    // this.transactionService.getAllMasters().subscribe((masters: any) => {
+    //   // this.payeeList = masters['payees'];
+    //   this.subCategories = masters['categories'];
+    //   this.subCategories = _.filter(this.subCategories, { 'parent': this.parentCategory.name});
+    //   console.log('Masters Loaded ' +   JSON.stringify(masters));
+    // });
+
+    this.subCategories = this.masterdataService.getSubCategories();
+    this.subCategories = _.filter(this.subCategories, { 'parent': this.parentCategory.name});
+    console.log('masterdataService subCategories ' + JSON.stringify(this.subCategories));
 
   }
 
@@ -74,13 +78,16 @@ export class SubCategoryComponent implements OnInit {
       this.transactionService.createCategory(this.addEditSubCategoryItem).subscribe((response: any) => {
         console.log('Categry Created' +   JSON.stringify(response));
         this.subCategories.push(response);
+        this.masterdataService.loadMasters();
       });
     } else {
       console.log('UPDATE Item ' + JSON.stringify(this.addEditSubCategoryItem));
       this.transactionService.updateCategoryById(this.addEditSubCategoryItem).subscribe((response: any) => {
         console.log('Categry Updated' +   JSON.stringify(response));
+        this.masterdataService.loadMasters();
       });
     }
+    
     this.isEditEnabled = false;
     this.canAddEditItem = false;
     console.log('saveNewItem');
@@ -111,24 +118,6 @@ export class SubCategoryComponent implements OnInit {
     console.log('cancelAddEditItem');
   }
 
-  //  addNewItem() {
-  //   this.canAddEditItem = true;
-  //   console.log('addNewItem');
-  // }
-  // editList() {
-  //   this.addEditSubCategoryItem = this.selectedSubCategory;
-  //   this.isEditEnabled = this.isEditEnabled === true ? false : true;
-  //   console.log('edit Item' + this.addEditSubCategoryItem);
-  // }
-
-  // cancelAddEditItem() {
-  //   this.isEditEnabled = false;
-  //   this.canAddEditItem = false;
-  // }
-  // saveItem() {
-  //   this.isEditEnabled = false;
-  //   this.canAddEditItem = false;
-  //   console.log('saveNewItem');
-  // }
+  
 
 }
